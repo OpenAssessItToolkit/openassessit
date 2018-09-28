@@ -12,13 +12,13 @@ def get_args():
     example_text = '''
     examples:
 
-    python %(capture_element_pic)s --input_file="/abs/path/to/lighthouse-report.json" --output_dir="/abs/path/to/output/folder" --sleep=1 --driver=firefox
+    python openassessit/%(capture_element_pic)s --input_file="/abs/path/to/lighthouse-report.json" --output_dir="/abs/path/to/output/folder" --sleep=1 --driver=firefox
 
     ''' % {'capture_element_pic': os.path.basename(__file__)}
 
     parser = argparse.ArgumentParser(epilog=example_text, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument('-i', '--input_file', help='Use absolute path to the lighthouse json report')
-    parser.add_argument('-o', '--output_dir', help='Use absolute path to output dir')
+    parser.add_argument('-i', '--input-file', help='Use absolute path to the lighthouse json report')
+    parser.add_argument('-o', '--output-dir', help='Use absolute path to output dir')
     parser.add_argument('-s', '--sleep', type=float, help='Number of seconds to wait before taking screenshots')
     parser.add_argument('-d', '--driver', choices=['firefox', 'chrome'], help='Name of the webdriver.')
     return parser.parse_args()

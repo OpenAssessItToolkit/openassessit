@@ -15,19 +15,19 @@ def get_args():
     example_text = '''
     examples:
 
-    python %(lighthouse)s -i /tmp/google.com.json -o /tmp/google.com.md -e
+    python openassessit/%(lighthouse)s -i /tmp/lighthouse-report.json -o /tmp/lighthouse-report.md
 
-    python %(lighthouse)s < lighthouse-report.json
+    python openassessit/%(lighthouse)s -i /tmp/lighthouse-report.json -o /tmp/lighthouse-report.md -t /your/templates
 
-    lighthouse  https://cats.com --output=json | python openassessit.markdown.py -o out.md
+    lighthouse  https://cats.com --output=json | python openassessit/%(lighthouse)s -o lighthouse-report.md
 
     ''' % {'lighthouse': os.path.basename(__file__)}
 
     parser = argparse.ArgumentParser(epilog=example_text, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("-i", "--input-file", help="Provide a the path to an input file", default=sys.stdin)
-    parser.add_argument("-o", "--output-file", help='Provide a filepath where the markdown result gets written')
-    parser.add_argument("-t", "--user-template-path", help="Provide filepath to custom user templates")
-    parser.add_argument("-e", action='store_true', default=False,
+    parser.add_argument('-i', '--input-file', help='Provide a the path to an input file', default=sys.stdin)
+    parser.add_argument('-o', '--output-file', help='Provide a filepath where the markdown result gets written')
+    parser.add_argument('-t', '--user-template-path', help='Provide filepath to custom user templates')
+    parser.add_argument('-e', action='store_true', default=False,
                         help='Echo the output to stdout, even when using the -o option')
     return parser.parse_args()
 
