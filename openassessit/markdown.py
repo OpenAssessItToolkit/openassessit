@@ -5,6 +5,8 @@ import os
 import io
 import json
 import sys
+import re
+from templates import template_path
 
 SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -17,13 +19,14 @@ def get_args():
 
     python %(lighthouse)s < lighthouse-report.json
 
-    lighthouse  https://cats.com --output=json | python lighthouse2md.py -o out.md
+    lighthouse  https://cats.com --output=json | python openassessit.markdown.py -o out.md
 
     ''' % {'lighthouse': os.path.basename(__file__)}
 
     parser = argparse.ArgumentParser(epilog=example_text, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("-i", "--input-file", help="Provide athe path to an input file", default=sys.stdin)
+    parser.add_argument("-i", "--input-file", help="Provide a the path to an input file", default=sys.stdin)
     parser.add_argument("-o", "--output-file", help='Provide a filepath where the markdown result gets written')
+    parser.add_argument("-t", "--user-template-path", help="Provide filepath to custom user templates")
     parser.add_argument("-e", action='store_true', default=False,
                         help='Echo the output to stdout, even when using the -o option')
     return parser.parse_args()
@@ -60,16 +63,24 @@ def write_output(output_file, rendered, force_stdout=False):
     if force_stdout:
         print(rendered)
 
+# Custom filter for jinja
+def regex_replace(s, find, replace):
+    return re.sub(find, replace, s)
+
 
 def main():
     args = get_args()
 
-    loader = jinja2.FileSystemLoader([
-        os.path.join(SCRIPT_PATH, 'user', 'templates'),
-        os.path.join(SCRIPT_PATH, 'templates')
-    ])
+    paths = list()
+    if args.user_template_path:
+        user_template_path = args.user_template_path
+        paths.append(user_template_path)
+    else:
+        paths.append(template_path)
+    loader = jinja2.FileSystemLoader(paths)
 
     env = jinja2.Environment(loader=loader)
+    env.filters['regex_replace'] = regex_replace
 
     template = loader.load(env, 'index.md')
     rendered = template.render({
