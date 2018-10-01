@@ -14,13 +14,13 @@ def get_args():
     example_text = '''
     examples:
 
-    python openassessit/%(capture_element_pic)s --input-file="/abs/path/to/lighthouse-report.json" --output-dir="/abs/path/to/output/folder" --sleep=1 --driver=firefox
+    python openassessit/%(capture_element_pic)s --input-file="/abs/path/to/lighthouse-report.json" --assets-dir="/abs/path/to/assets" --sleep=1 --driver=firefox
 
     ''' % {'capture_element_pic': os.path.basename(__file__)}
 
     parser = argparse.ArgumentParser(epilog=example_text, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-i', '--input-file', help='Use absolute path to the lighthouse json report')
-    parser.add_argument('-o', '--output-dir', help='Use absolute path to output dir')
+    parser.add_argument('-a', '--assets-dir', help='Use absolute path to /assets dir')
     parser.add_argument('-s', '--sleep', type=float, help='Number of seconds to wait before taking screenshots')
     parser.add_argument('-d', '--driver', choices=['firefox', 'chrome'], help='Name of the webdriver.')
     return parser.parse_args()
@@ -38,15 +38,15 @@ def get_chrome_driver():
     return webdriver.Chrome(chrome_options=options)
 
 
-def capture_screenshot(output_dir, url, sleep, driver):
+def capture_screenshot(assets_dir, url, sleep, driver):
     driver.get(url)
     time.sleep(sleep)
     driver.set_window_size(1400, 700)
-    Image.open(BytesIO(driver.get_screenshot_as_png())).save(os.path.join(output_dir,'screenshot.png'))
-    print(os.path.join(output_dir,'screenshot.png'))
+    Image.open(BytesIO(driver.get_screenshot_as_png())).save(os.path.join(assets_dir,'screenshot.png'))
+    print(os.path.join(assets_dir,'screenshot.png'))
 
 
-def capture_element_pic(input_file, output_dir, url, elem_identifier, sleep, driver):
+def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, driver):
 
     driver.get(url)
     time.sleep(sleep) # wait for page to load a bit
@@ -64,8 +64,8 @@ def capture_element_pic(input_file, output_dir, url, elem_identifier, sleep, dri
                     location['y'] + size['height']
                     ))
         elem_image_name = generate_img_filename(url, elem_identifier)
-        im.save(os.path.join(output_dir,elem_image_name)) # saves new cropped image
-        print(os.path.join(output_dir,elem_image_name))
+        im.save(os.path.join(assets_dir,elem_image_name)) # saves new cropped image
+        print(os.path.join(assets_dir,elem_image_name))
     except Exception as ex:
         print(ex)
 
@@ -87,7 +87,7 @@ def identifier_generator(data, *auditref_whitelist):
 def main():
     args = get_args()
     input_file = args.input_file
-    output_dir = args.output_dir
+    assets_dir = args.assets_dir
     sleep = args.sleep
     if args.driver == 'firefox':
         driver = get_firefox_driver()
@@ -98,9 +98,9 @@ def main():
     try:
         with open(input_file) as json_file:
             data = json.load(json_file)
-            capture_screenshot(output_dir, data['finalUrl'], sleep, driver)
+            capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
         for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label'):
-            capture_element_pic(input_file, output_dir, data['finalUrl'], sel, sleep, driver)
+            capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, sleep, driver)
     finally:
         driver.quit()
 
