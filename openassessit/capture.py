@@ -101,7 +101,7 @@ def main():
         with open(input_file) as json_file:
             data = json.load(json_file)
             capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
-        for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label'):
+        for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title'):
             capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, sleep, driver)
     finally:
         driver.quit()
