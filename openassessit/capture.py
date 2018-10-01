@@ -14,7 +14,7 @@ def get_args():
     example_text = '''
     examples:
 
-    python openassessit/%(capture_element_pic)s --input_file="/abs/path/to/lighthouse-report.json" --output_dir="/abs/path/to/output/folder" --sleep=1 --driver=firefox
+    python openassessit/%(capture_element_pic)s --input-file="/abs/path/to/lighthouse-report.json" --output-dir="/abs/path/to/output/folder" --sleep=1 --driver=firefox
 
     ''' % {'capture_element_pic': os.path.basename(__file__)}
 
