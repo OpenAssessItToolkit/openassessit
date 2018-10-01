@@ -80,7 +80,9 @@ def identifier_generator(data, *auditref_whitelist):
             continue
 
         for item in audit.get('details', {}).get('items', []):
-            if item['node']['selector'] != ':root':
+            if item['node']['selector'] == ':root':
+                print('Selector returned as ":root", no image will be created.') # If Axe returns ":root" it does not create a helpful screenshot
+            else:
                 yield item['node']['selector']
 
 
