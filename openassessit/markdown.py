@@ -63,10 +63,6 @@ def write_output(output_file, rendered, force_stdout=False):
     if force_stdout:
         print(rendered)
 
-# Custom filter for jinja
-def regex_replace(s, find, replace):
-    return re.sub(find, replace, s)
-
 
 def main():
     args = get_args()
