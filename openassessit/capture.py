@@ -6,6 +6,8 @@ import re
 import argparse
 import os
 import json
+from utils import generate_img_filename
+from templates import template_path
 
 
 def get_args():
@@ -60,7 +62,7 @@ def capture_element_pic(input_file, output_dir, url, elem_identifier, sleep, dri
                     location['x'] + size['width'] + 25,
                     location['y'] + size['height']
                     ))
-        elem_image_name = '%s.png' % re.sub('[^0-9a-zA-Z]+', '', url + elem_identifier) # creates a predictable image name
+        elem_image_name = generate_img_filename(url, elem_identifier)
         print(os.path.join(output_dir,elem_image_name))
         im.save(os.path.join(output_dir,elem_image_name)) # saves new cropped image
     except Exception as ex:

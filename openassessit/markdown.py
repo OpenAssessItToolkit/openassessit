@@ -80,11 +80,12 @@ def main():
     loader = jinja2.FileSystemLoader(paths)
 
     env = jinja2.Environment(loader=loader)
-    env.filters['regex_replace'] = regex_replace
 
     template = loader.load(env, 'index.md')
+
     rendered = template.render({
-        'data': preprocess_data(read_input(args.input_file))
+        'data': preprocess_data(read_input(args.input_file)),
+        'generate_img_filename': generate_img_filename,
     })
 
     write_output(args.output_file, rendered, force_stdout=args.e or not args.output_file)
