@@ -32,14 +32,13 @@ def get_args():
                         help='Echo the output to stdout, even when using the -o option')
     return parser.parse_args()
 
-#  move to utils
+
 def preprocess_data(data):
     for cat in data['categories']:
         data['categories'][cat]['audits'] = dict()
         for audit_ref in data['categories'][cat]['auditRefs']:
             audit = data['audits'][audit_ref['id']]
             audit['audit_template'] = '%s.md' % audit_ref['id']
-            # audit generate_img_file name in here
             if 'displayValue' in audit and type(audit['displayValue']) is list:
                 try:
                     audit['displayValue'] = audit['displayValue'][0] % tuple(audit['displayValue'][1:])
