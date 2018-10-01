@@ -43,6 +43,7 @@ def capture_screenshot(output_dir, url, sleep, driver):
     time.sleep(sleep)
     driver.set_window_size(1400, 700)
     Image.open(BytesIO(driver.get_screenshot_as_png())).save(os.path.join(output_dir,'screenshot.png'))
+    print(os.path.join(output_dir,'screenshot.png'))
 
 
 def capture_element_pic(input_file, output_dir, url, elem_identifier, sleep, driver):
@@ -63,8 +64,8 @@ def capture_element_pic(input_file, output_dir, url, elem_identifier, sleep, dri
                     location['y'] + size['height']
                     ))
         elem_image_name = generate_img_filename(url, elem_identifier)
-        print(os.path.join(output_dir,elem_image_name))
         im.save(os.path.join(output_dir,elem_image_name)) # saves new cropped image
+        print(os.path.join(output_dir,elem_image_name))
     except Exception as ex:
         print(ex)
 
