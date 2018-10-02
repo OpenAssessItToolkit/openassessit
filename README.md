@@ -39,6 +39,7 @@ lighthouse https://cats.com \
 --output-path=catsaudit.json \
 --chrome-flags="--headless --window-size=1300,600"
 ```
+<sub>Or use these [custom Lighthouse audit recipes](https://github.com/joelhsmith/audit_recipes)</sub>
 
 __2) Run Lighthouse to Markdown__
 
