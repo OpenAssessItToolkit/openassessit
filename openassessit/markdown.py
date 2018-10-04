@@ -7,7 +7,6 @@ from operator import itemgetter
 import json
 import sys
 import re
-from collections import OrderedDict
 from utils import generate_img_filename
 from templates import template_path
 
