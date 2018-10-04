@@ -3,6 +3,7 @@ import argparse
 import jinja2
 import os
 import io
+from operator import itemgetter
 import json
 import sys
 import re
@@ -10,6 +11,26 @@ from utils import generate_img_filename
 from templates import template_path
 
 SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
+
+
+class readable_dir(argparse.Action):
+    """Add an option for readable directories for argparse
+
+    https://stackoverflow.com/questions/11415570/directory-path-types-with-argparse
+    """
+    def __call__(self, parser, namespace, values, option_string=None):
+        prospective_dir = values
+        if not os.path.isdir(prospective_dir):
+            raise argparse.ArgumentTypeError(
+               "readable_dir:{0} is not a valid path".format(prospective_dir)
+            )
+        if os.access(prospective_dir, os.R_OK):
+            setattr(namespace, self.dest, prospective_dir)
+        else:
+            raise argparse.ArgumentTypeError(
+                "readable_dir:{0} is not a readable dir".format(
+                    prospective_dir)
+            )
 
 
 def get_args():
@@ -27,13 +48,25 @@ def get_args():
     parser = argparse.ArgumentParser(epilog=example_text, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-i', '--input-file', help='Provide a the path to an input file', default=sys.stdin)
     parser.add_argument('-o', '--output-file', help='Provide a filepath where the markdown result gets written')
-    parser.add_argument('-t', '--user-template-path', help='Provide filepath to custom user templates')
+    parser.add_argument('-t', '--user-template-path',
+                        action=readable_dir,
+                        help='Provide filepath to custom user templates')
     parser.add_argument('-e', action='store_true', default=False,
                         help='Echo the output to stdout, even when using the -o option')
     return parser.parse_args()
 
 
 def preprocess_data(data):
+
+    # Get audit_refs with weights in a nice dict before full pre-processing
+    metadata = {}
+    for cat in data['categories']:
+        for audit_ref in data['categories'][cat]['auditRefs']:
+            if 'id' in audit_ref:
+                metadata[audit_ref['id']] = {
+                    'weight': audit_ref['weight']
+                }
+
     for cat in data['categories']:
         data['categories'][cat]['audits'] = dict()
         for audit_ref in data['categories'][cat]['auditRefs']:
@@ -44,8 +77,28 @@ def preprocess_data(data):
                     audit['displayValue'] = audit['displayValue'][0] % tuple(audit['displayValue'][1:])
                 except TypeError as ex:
                     print('Exception "' + audit_ref['id'] + '" audit will be skipped: "' + str(ex) + '"\n' + str(audit) )
-
             data['categories'][cat]['audits'][audit_ref['id']] = audit
+
+            # Add the weight right in to the audit bit, so we can easily sort
+            # later
+            data['categories'][cat]['audits'][audit_ref['id']]['weight'] = \
+                metadata[audit_ref['id']]['weight']
+
+    # Now that the weights are in a spot we can get, let's add a sorted list,
+    # and maybe (?) in a future feature, disabled the unsorted dict
+    for cat in data['categories']:
+        unsorted_audits = []
+        for audit_ref in data['categories'][cat]['auditRefs']:
+            unsorted_audits.append(
+                data['categories'][cat]['audits'][audit_ref['id']])
+
+        # Now that it's in a nice list, let's sort it.  Reverse means highest
+        # number first
+        sorted_audits = sorted(unsorted_audits, key=itemgetter('weight'),
+                               reverse=True)
+
+        data['categories'][cat]['sorted_audits'] = sorted_audits
+
     return data
 
 
@@ -88,6 +141,7 @@ def main():
 
     write_output(args.output_file, rendered, force_stdout=args.e or not args.output_file)
     print('Convertion complete: ' + args.output_file)
+
 
 if __name__ == '__main__':
     main()
