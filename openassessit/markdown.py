@@ -75,8 +75,8 @@ def preprocess_data(data):
             if 'displayValue' in audit and type(audit['displayValue']) is list:
                 try:
                     audit['displayValue'] = audit['displayValue'][0] % tuple(audit['displayValue'][1:])
-                except TypeError:
-                    print(audit)
+                except TypeError as ex:
+                    print('Exception "' + audit_ref['id'] + '" audit will be skipped: "' + str(ex) + '"\n' + str(audit) )
             data['categories'][cat]['audits'][audit_ref['id']] = audit
 
             # Add the weight right in to the audit bit, so we can easily sort
@@ -140,6 +140,7 @@ def main():
     })
 
     write_output(args.output_file, rendered, force_stdout=args.e or not args.output_file)
+    print('Convertion complete: ' + args.output_file)
 
 
 if __name__ == '__main__':
