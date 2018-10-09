@@ -44,7 +44,7 @@ lighthouse https://cats.com \
 --output-path=catsaudit.json \
 --chrome-flags="--headless --window-size=1300,600"
 ```
-<sub>Or use these [custom Lighthouse audit recipes](https://github.com/joelhsmith/audit_recipes)</sub>
+Or use our [custom Lighthouse accessibility audit recipe](https://gist.github.com/joelhsmith/21bb103e987da65c67f6420488643380)
 
 __2) Run Lighthouse to Markdown__
 
@@ -84,10 +84,10 @@ Your markdown file is complete. You can use it as-is, or augment the content wit
 
 ## Notes
 
-1. If you want to change the order of the audits create a custom lighthouse config, by changing the order of the `[categories][accessibility][auditRefs]`
+1. If you want to change the order of the audits in the Markdown file, create a custom lighthouse config and change the weight `[categories][accessibility][auditRefs][id][weight]`
 
-1. The report creates images from elements listed in 'color-contrast', 'link-name', 'button-name', image-alt', 'input-image-alt', 'iframe-title', and 'label' audits.
+2. The report creates images from elements listed in 'color-contrast', 'link-name', 'button-name', image-alt', 'input-image-alt', 'frame-title', and 'label' audits.
 
-2. There is a rare [bug in Axe-core that creates invalid selectors](https://github.com/dequelabs/axe-core/issues/1165) in some edge case scenarios. When that issue is fixed in Axe-core it will get included in Lighthouse, then this issue will go away. Skipped images are logged and printed to the console.
+3. There is a rare [bug in Axe-core that creates invalid selectors](https://github.com/dequelabs/axe-core/issues/1165) in some edge case scenarios. When that issue is fixed in Axe-core it will get included in Lighthouse, then this issue will go away. Invalid selectors are skipped but a notification is printed to the console.
 
 This project is only possible because of [ihadgraft](https://github.com/ihadgraft)'s generous donation of his expertise, time, and patience with [joelhsmith](https://github.com/joelhsmith).  Thank you Iain!
