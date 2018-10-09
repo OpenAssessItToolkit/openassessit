@@ -60,6 +60,7 @@ def preprocess_data(data):
 
     # Get audit_refs with weights in a nice dict before full pre-processing
     metadata = {}
+
     for cat in data['categories']:
         for audit_ref in data['categories'][cat]['auditRefs']:
             if 'id' in audit_ref:
@@ -77,6 +78,8 @@ def preprocess_data(data):
                     audit['displayValue'] = audit['displayValue'][0] % tuple(audit['displayValue'][1:])
                 except TypeError as ex:
                     print('Exception "' + audit_ref['id'] + '" audit will be skipped: "' + str(ex) + '"\n' + str(audit) )
+            elif 'errorMessage' in audit:
+                print('Lighthouse json input-file not valid. ErrorMessage in "'  + audit_ref['id'] + '" check Lighthouse config and re-run.')
             data['categories'][cat]['audits'][audit_ref['id']] = audit
 
             # Add the weight right in to the audit bit, so we can easily sort
