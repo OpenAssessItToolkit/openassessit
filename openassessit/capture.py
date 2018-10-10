@@ -1,5 +1,5 @@
 from selenium import webdriver
-from PIL import Image
+from PIL import Image,ImageDraw
 from io import BytesIO
 import time
 import re
@@ -29,7 +29,7 @@ def get_args():
 def get_firefox_driver():
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
-    return webdriver.Firefox(firefox_options=options)
+    return webdriver.Firefox(options=options)
 
 
 def get_chrome_driver():
@@ -44,10 +44,10 @@ def capture_screenshot(assets_dir, url, sleep, driver):
     driver.set_window_size(1400, 700)
     Image.open(BytesIO(driver.get_screenshot_as_png())).save(os.path.join(assets_dir,'screenshot.png'))
     print(os.path.join(assets_dir,'screenshot.png'))
+    print('Created: "' + assets_dir  + 'screenshot.png' + '"')
 
 
 def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, driver):
-
     driver.get(url)
     time.sleep(sleep) # wait for page to load a bit
     driver.set_window_size(1400, driver.execute_script("return document.body.parentNode.scrollHeight"))
@@ -56,22 +56,27 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
         elem = driver.find_element_by_css_selector(elem_identifier) # find element
         location = elem.location
         size = elem.size
-
-        im = Image.open(BytesIO(driver.get_screenshot_as_png())) # uses PIL library to open image in memory
-        im = im.crop((location['x'] -25,
-                    location['y'],
-                    location['x'] + size['width'] + 25,
-                    location['y'] + size['height']
-                    ))
         elem_image_name = generate_img_filename(url, elem_identifier)
-        im.save(os.path.join(assets_dir,elem_image_name)) # saves new cropped image
-        print(os.path.join(assets_dir,elem_image_name))
+
+        if (size == {'height': 0.0, 'width': 0.0}):
+            im = Image.new('RGB', (200, 50), color = (255,182,193))
+            ImageDraw.Draw(im).text((20,20), 'Image could not be created', fill=(0,0,0))
+            im.save(os.path.join(assets_dir,elem_image_name))
+            print('Could not create: "' + elem_identifier + '" because it is not visible.')
+        else:
+            im = Image.open(BytesIO(driver.get_screenshot_as_png())) # uses PIL library to open image in memory
+            im = im.crop((location['x'] -25,
+                          location['y'],
+                          location['x'] + size['width'] + 25,
+                          location['y'] + size['height']
+                        ))
+            im.save(os.path.join(assets_dir,elem_image_name)) # saves new cropped image
+            print('Created: "' + assets_dir + elem_image_name +'"')
     except Exception as ex:
+        print('Could not create image for"' + elem_identifier + '" because:')
         print(ex)
 
-
 def identifier_generator(data, *auditref_whitelist):
-
     for sel in auditref_whitelist:
         audit = data.get('audits', {}).get(sel)
 
@@ -101,10 +106,11 @@ def main():
         with open(input_file) as json_file:
             data = json.load(json_file)
             capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
-        for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title'):
+        for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'duplicate-id', 'list', 'listitem', 'definition-list', 'dlitem'):
             capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, sleep, driver)
     finally:
         driver.quit()
+        print('Image creation complete in: "' + args.assets_dir + '"')
 
 
 if __name__ == '__main__':

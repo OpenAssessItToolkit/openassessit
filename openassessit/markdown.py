@@ -143,7 +143,7 @@ def main():
     })
 
     write_output(args.output_file, rendered, force_stdout=args.e or not args.output_file)
-    print('Convertion complete: ' + args.output_file)
+    print('Markdown convertion complete in: ' + args.output_file)
 
 
 if __name__ == '__main__':
