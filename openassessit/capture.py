@@ -43,9 +43,7 @@ def capture_screenshot(assets_dir, url, sleep, driver):
     time.sleep(sleep)
     driver.set_window_size(1400, 700)
     Image.open(BytesIO(driver.get_screenshot_as_png())).save(os.path.join(assets_dir,'screenshot.png'))
-    print(os.path.join(assets_dir,'screenshot.png'))
     print('Created: "' + assets_dir  + 'screenshot.png' + '"')
-
 
 def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, driver):
     driver.get(url)
