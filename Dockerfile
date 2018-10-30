@@ -31,7 +31,7 @@ RUN npm --global install -y lighthouse \
     && npm cache clean --force
 
 # Clone OpenAssessIt repos
-RUN git clone https://github.com/OpenAssessItToolkit/openassessit.git
+RUN git clone https://github.com/OpenAssessItToolkit/openassessit.git -b feature/add_docker
 RUN git clone https://github.com/OpenAssessItToolkit/openassessit_templates.git
 
 # Install any needed packages specified in openassessits requirements.txt
@@ -47,30 +47,13 @@ RUN rm /tmp/geckodriver.tgz
 RUN chmod +x geckodriver
 RUN mv geckodriver /usr/bin/
 
-
 # create folder to save audit images in
 RUN mkdir -p example/assets
-
-RUN lighthouse https://cats.com \
---only-categories=accessibility \
---disable-device-emulation \
---output=json \
---output-path="$(pwd)/example/catsaudit.json" \
---chrome-flags="--headless --no-sandbox --disable-gpu --window-size=1300,600"
-
-RUN python3 openassessit/openassessit/markdown.py \
---input-file="$(pwd)/example/catsaudit.json" \
---output-file="$(pwd)/example/catsaudit.md"
-
-RUN python3 openassessit/openassessit/capture.py \
---input-file="$(pwd)/example/catsaudit.json" \
---assets-dir="$(pwd)/example/assets/" \
---sleep=1 \
---driver=firefox
 
 # Define environment variable
 ENV NAME openassessit
 
-# TODO: Use Entrypoint so we can pass in variables
-#       Probably move the whole run.sh into dockerfile
-# ENTRYPOINT ['run.sh']
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+
+# ENTRYPOINT ["/app/entrypoint.sh", $1, $2]
