@@ -1,25 +1,27 @@
 # Parent image
-# FROM stevedore-repo.oit.duke.edu/deb-base-17.10:latest
-
-# TODO: Switching to ubuntu as base, moving stevador stuffinside this stand alone
-#       file. Only diff between whats in the stevedor is we need to update to node 8
-
-FROM ubuntu:17.10
+FROM ubuntu:18.10
 
 LABEL name "openassessit"
+LABEL maintainer Joel Crawford-Smith <jhc36@duke.edu>
+LABEL version "1"
+LABEL release "1"
+LABEL summary "OpenAssessIt Quickstart"
+LABEL Description "OpenAssessIt Process JSON Lighthouse reports into markdown files with images of failing items."
+
+ENV DEBIAN_FRONTEND noninteractive
+
 
 # Set the working directory to /app
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
-
 # Install Python, Pip, Git, and Chromium
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
+    python3-setuptools \
     python3.5 \
     python3-pip \
     && apt-get install -y npm chromium-browser imagemagick \
     && apt-get install -y git \
+    && apt-get install -y wget \
     && apt-get install -y zip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
@@ -33,12 +35,38 @@ RUN git clone https://github.com/OpenAssessItToolkit/openassessit.git
 RUN git clone https://github.com/OpenAssessItToolkit/openassessit_templates.git
 
 # Install any needed packages specified in openassessits requirements.txt
-RUN pip3 install --trusted-host pypi.python.org -r requirements.txt
+RUN pip3 install wheel
+RUN pip3 install --trusted-host pypi.python.org -r openassessit/requirements.txt
 
 # TODO: Install a webdriver https://www.blazemeter.com/blog/how-to-run-selenium-tests-in-docker
 
+# Gecko Driver
+RUN wget -q "https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz" -O /tmp/geckodriver.tgz
+RUN tar -xvzf /tmp/geckodriver.tgz
+RUN rm /tmp/geckodriver.tgz
+RUN chmod +x geckodriver
+RUN mv geckodriver /usr/bin/
+
+
 # create folder to save audit images in
 RUN mkdir -p example/assets
+
+RUN lighthouse https://cats.com \
+--only-categories=accessibility \
+--disable-device-emulation \
+--output=json \
+--output-path="$(pwd)/example/catsaudit.json" \
+--chrome-flags="--headless --no-sandbox --disable-gpu --window-size=1300,600"
+
+RUN python3 openassessit/openassessit/markdown.py \
+--input-file="$(pwd)/example/catsaudit.json" \
+--output-file="$(pwd)/example/catsaudit.md"
+
+RUN python3 openassessit/openassessit/capture.py \
+--input-file="$(pwd)/example/catsaudit.json" \
+--assets-dir="$(pwd)/example/assets/" \
+--sleep=1 \
+--driver=firefox
 
 # Define environment variable
 ENV NAME openassessit
