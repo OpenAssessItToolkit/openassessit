@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
     && apt-get install -y wget \
     && apt-get install -y zip \
     && apt-get install -y vim \
+    && apt-get install -y firefox \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
