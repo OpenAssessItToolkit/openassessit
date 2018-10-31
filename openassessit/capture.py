@@ -101,7 +101,7 @@ def main():
     else:
         raise ValueError("Driver must be one of: firefox, chrome")
     try:
-        with open(input_file) as json_file:
+        with open(input_file, encoding='utf-8')) as json_file:
             data = json.load(json_file)
             capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
         for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'duplicate-id', 'list', 'listitem', 'definition-list', 'dlitem'):
