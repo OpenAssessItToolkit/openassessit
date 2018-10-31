@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
     && apt-get install -y git \
     && apt-get install -y wget \
     && apt-get install -y zip \
+    && apt-get install -y vim \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
