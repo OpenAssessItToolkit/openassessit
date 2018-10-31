@@ -49,9 +49,6 @@ RUN rm /tmp/geckodriver.tgz
 RUN chmod +x geckodriver
 RUN mv geckodriver /usr/bin/
 
-# create folder to save audit images in
-RUN mkdir -p example/assets
-
 # Define environment variable
 ENV NAME openassessit
 
