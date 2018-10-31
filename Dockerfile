@@ -53,7 +53,7 @@ RUN mkdir -p example/assets
 # Define environment variable
 ENV NAME openassessit
 
-# COPY entrypoint.sh /
-RUN chmod +x /app/openassessit/entrypoint.sh
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
-ENTRYPOINT ["/app/openassessit/entrypoint.sh", $1, $2]
+ENTRYPOINT ["/app/entrypoint.sh"]
