@@ -55,4 +55,6 @@ ENV NAME openassessit
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
+# Example:
+# docker run -v $(pwd)/tmp:/tmp openassessit:latest https://cats.com catshomepage
 ENTRYPOINT ["/app/entrypoint.sh"]
