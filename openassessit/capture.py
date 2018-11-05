@@ -35,7 +35,36 @@ def get_firefox_driver():
 def get_chrome_driver():
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
-    return webdriver.Chrome(chrome_options=options)
+    return webdriver.Chrome(options=options)
+
+
+def scroll_down(driver, value):
+    """ Scroll down some """
+    driver.execute_script("window.scrollBy(0,"+str(value)+")")
+    print("scroll_down")
+
+
+def detect_full_html_loaded(driver):
+    """ Check if the HTML is done changing """
+    old_html = driver.page_source
+    while True:
+        for i in range(2):
+            scroll_down(driver, 1000)
+            time.sleep(2)
+        new_html = driver.page_source
+        if new_html != old_html:
+            old_html = new_html
+        else:
+            break
+    return True
+
+
+def create_backup_image(assets_dir, elem_identifier, elem_image_name):
+    """ Create image if selector can't be found """
+    im = Image.new('RGB', (200, 50), color = (255,182,193))
+    ImageDraw.Draw(im).text((20,20), 'Image could not be created', fill=(0,0,0))
+    im.save(os.path.join(assets_dir,elem_image_name))
+    print('Could not create: "' + elem_identifier + '" because it is not visible.')
 
 
 def capture_screenshot(assets_dir, url, sleep, driver):
@@ -45,9 +74,9 @@ def capture_screenshot(assets_dir, url, sleep, driver):
     Image.open(BytesIO(driver.get_screenshot_as_png())).save(os.path.join(assets_dir,'screenshot.png'))
     print('Created: "' + assets_dir  + 'screenshot.png' + '"')
 
+
 def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, driver):
     driver.get(url)
-    time.sleep(sleep) # wait for page to load a bit
     driver.set_window_size(1400, driver.execute_script("return document.body.parentNode.scrollHeight"))
 
     try:
@@ -57,10 +86,7 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
         elem_image_name = generate_img_filename(url, elem_identifier)
 
         if (size == {'height': 0.0, 'width': 0.0}):
-            im = Image.new('RGB', (200, 50), color = (255,182,193))
-            ImageDraw.Draw(im).text((20,20), 'Image could not be created', fill=(0,0,0))
-            im.save(os.path.join(assets_dir,elem_image_name))
-            print('Could not create: "' + elem_identifier + '" because it is not visible.')
+            create_backup_image(assets_dir, elem_identifier, elem_image_name)
         else:
             im = Image.open(BytesIO(driver.get_screenshot_as_png())) # uses PIL library to open image in memory
             im = im.crop((location['x'] -25,
@@ -105,6 +131,7 @@ def main():
             data = json.load(json_file)
             capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
         for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'duplicate-id', 'list', 'listitem', 'definition-list', 'dlitem'):
+            detect_full_html_loaded(driver)
             capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, sleep, driver)
     finally:
         driver.quit()
