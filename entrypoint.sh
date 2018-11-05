@@ -16,5 +16,5 @@ python3 /app/openassessit/openassessit/capture.py \
 --input-file="/tmp/$2/$2.json" \
 --assets-dir="/tmp/$2/assets/" \
 --sleep=4 \
---driver=firefox;
+--driver=$3;
 zip -r /tmp/$2.zip /tmp/$2

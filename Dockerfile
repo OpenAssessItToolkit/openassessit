@@ -49,6 +49,13 @@ RUN rm /tmp/geckodriver.tgz
 RUN chmod +x geckodriver
 RUN mv geckodriver /usr/bin/
 
+# Chrome Driver
+RUN wget -q "https://chromedriver.storage.googleapis.com/2.43/chromedriver_linux64.zip" -O /tmp/chromedriver.zip
+RUN unzip /tmp/chromedriver.zip
+RUN rm /tmp/chromedriver.zip
+RUN chmod +x chromedriver
+RUN mv chromedriver /usr/bin/
+
 # Define environment variable
 ENV NAME openassessit
 
