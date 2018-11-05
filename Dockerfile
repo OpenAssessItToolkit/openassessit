@@ -33,7 +33,7 @@ RUN npm --global install -y lighthouse \
     && npm cache clean --force
 
 # Clone OpenAssessIt repos
-RUN git clone https://github.com/OpenAssessItToolkit/openassessit.git -b feature/add_docker
+RUN git clone https://github.com/OpenAssessItToolkit/openassessit.git -b develop
 RUN git clone https://github.com/OpenAssessItToolkit/openassessit_templates.git
 
 # Install any needed packages specified in openassessits requirements.txt
