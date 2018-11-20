@@ -46,12 +46,15 @@ def scroll_down(driver, value):
 
 
 def detect_full_html_loaded(driver):
-    """ Check if the HTML is done changing """
+    """ Keep scrolling until DOM is done changing """
+    n = 10
     old_html = driver.page_source
-    while True:
+    while n > 0:
         for i in range(2):
+            print('Waiting for DOM and ajaxy stuff to load...')
             scroll_down(driver, 1000)
             time.sleep(2)
+            n = n-1
         new_html = driver.page_source
         if new_html != old_html:
             old_html = new_html
