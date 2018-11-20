@@ -1,7 +1,65 @@
 # Suggested configuration for an accessibility audit
-The OpenAssesIt Toolkits suite of projects are meant to be run independently or as a suite. Below is a suggested configuration. This project can work on all audit categories, but current efforts are focused on the accessibility audits.
+The OpenAssesIt Toolkit is a suite of projects that are meant to be run independently or as a suite. Below is a suggested configuration. 
 
-### Prerequisites
+This project will take a Lighthouse JSON report, convert it to MarkDown, then take screenshots of all the failing elements.
+
+This project can work on all audit categories, but current efforts are focused on the accessibility audits.
+
+## Two options to get started:
+
+__1. Run in local Docker container__
+
+OR
+
+__2. Manually install prerequisites and run natively__
+
+---
+
+### 1. Run in Docker container
+
+This is the easiest way to get set up. 
+
+#### Prerequisites 
+
+Download and Install Docker for your OS:
+
+[Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
+
+[Docker for Windows](https://docs.docker.com/docker-for-windows/install/)
+
+#### Setup
+
+Download OpenAssessIt:
+
+```
+git clone https://github.com/OpenAssessItToolkit/openassessit.git -b develop/add_docker
+```
+
+Change directory:
+
+```
+cd openassessit
+```
+
+#### Run it
+
+Run OpenAssessIt in the container:
+
+```
+docker-compose -f docker-compose.local.yml build
+docker-compose -f docker-compose.local.yml run app https://cats.com catshomepage firefox
+docker-compose -f docker-compose.local.yml down
+```
+
+The audit will be copied into your `openassessit/tmp/` directory
+
+---
+
+# OR
+
+### 2. Manually install prerequisites and run locally
+
+#### Prerequisites
 
 1. Don't be intimidated, you can do this.
 
@@ -12,7 +70,7 @@ The OpenAssesIt Toolkits suite of projects are meant to be run independently or 
 6. Run `pip install -r requirements.txt` from the root of this repo to install Selenium, Jinja2, and Pillow.
 7. Read the README.md files.
 
-## Setup
+#### Setup
 
 From your projects directory:
 
@@ -31,7 +89,7 @@ git clone https://github.com/OpenAssessItToolkit/openassessit.git
 git clone https://github.com/OpenAssessItToolkit/openassessit_templates.git
 ```
 
-## Run
+#### Run
 
 __1) Create a Lighthouse json accessibility audit file to import__
 
@@ -73,6 +131,9 @@ python openassessit/capture.py \
 --driver=firefox
 ```
 
+
+---
+
 ## Make friends and influence people
 
 
@@ -84,10 +145,8 @@ Your markdown file is complete. You can use it as-is, or augment the content wit
 
 ## Notes
 
-1. If you want to change the order of the audits in the Markdown file, create a custom lighthouse config and change the weight `[categories][accessibility][auditRefs][id][weight]`
+1. If you want to change the order of the audits in the Markdown file, [custom Lighthouse config](https://gist.github.com/joelhsmith/21bb103e987da65c67f6420488643380) and change the weight `[categories][accessibility][auditRefs][id][weight]`
 
-2. The report creates images from elements listed in 'color-contrast', 'link-name', 'button-name', image-alt', 'input-image-alt', 'frame-title', and 'label' audits.
-
-3. There is a rare [bug in Axe-core that creates invalid selectors](https://github.com/dequelabs/axe-core/issues/1165) in some edge case scenarios. When that issue is fixed in Axe-core it will get included in Lighthouse, then this issue will go away. Invalid selectors are skipped but a notification is printed to the console.
+2. The report creates images from elements listed in 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'duplicate-id', 'list', 'listitem', 'definition-list', 'dlitem'.
 
 This project is only possible because of [ihadgraft](https://github.com/ihadgraft)'s generous donation of his expertise, time, and patience with [joelhsmith](https://github.com/joelhsmith).  Thank you Iain!
