@@ -27,12 +27,14 @@ def get_args():
 
 
 def get_firefox_driver():
+    """ Get Firefox driver """
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
     return webdriver.Firefox(options=options)
 
 
 def get_chrome_driver():
+    """ Get Chrome driver """
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
     return webdriver.Chrome(options=options)
@@ -41,7 +43,6 @@ def get_chrome_driver():
 def scroll_down(driver, value):
     """ Scroll down some """
     driver.execute_script("window.scrollBy(0,"+str(value)+")")
-    print("scroll_down")
 
 
 def detect_full_html_loaded(driver):
@@ -54,20 +55,24 @@ def detect_full_html_loaded(driver):
         new_html = driver.page_source
         if new_html != old_html:
             old_html = new_html
+            print('DOM load is taking too long, start image creation.')
         else:
+            print('DOM is sufficently loaded.')
             break
+
     return True
 
 
 def create_backup_image(assets_dir, elem_identifier, elem_image_name):
-    """ Create image if selector can't be found """
-    im = Image.new('RGB', (200, 50), color = (255,182,193))
-    ImageDraw.Draw(im).text((20,20), 'Image could not be created', fill=(0,0,0))
+    """ Create fallback image """
+    im = Image.new('RGB', (300, 50), color = (255,182,193))
+    ImageDraw.Draw(im).text((20,20), 'Image could not be created. See Console.', fill=(0,0,0))
     im.save(os.path.join(assets_dir,elem_image_name))
-    print('Could not create: "' + elem_identifier + '" because it is not visible.')
+    print('Could not create: "' + elem_identifier + '" because:')
 
 
 def capture_screenshot(assets_dir, url, sleep, driver):
+    """ Take simple screenshot of above-the-fold """
     driver.get(url)
     time.sleep(sleep)
     driver.set_window_size(1400, 700)
@@ -76,6 +81,7 @@ def capture_screenshot(assets_dir, url, sleep, driver):
 
 
 def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, driver):
+    """ Capture image of element and save """
     driver.get(url)
     driver.set_window_size(1400, driver.execute_script("return document.body.parentNode.scrollHeight"))
 
@@ -87,6 +93,10 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
 
         if (size == {'height': 0.0, 'width': 0.0}):
             create_backup_image(assets_dir, elem_identifier, elem_image_name)
+            print('The element is invisible or has height and width of zero.')
+        elif not location:
+            create_backup_image(assets_dir, elem_identifier, elem_image_name)
+            print('The webdriver could not locate the element to create image.')
         else:
             im = Image.open(BytesIO(driver.get_screenshot_as_png())) # uses PIL library to open image in memory
             im = im.crop((location['x'] -25,
@@ -100,7 +110,9 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
         print('Could not create image for"' + elem_identifier + '" because:')
         print(ex)
 
+
 def identifier_generator(data, *auditref_whitelist):
+    """ Create and yield each elements selector when it is in the audit whitelist """
     for sel in auditref_whitelist:
         audit = data.get('audits', {}).get(sel)
 
@@ -116,6 +128,8 @@ def identifier_generator(data, *auditref_whitelist):
 
 
 def main():
+    """ Parse Lighthouse JSON for failing elements and capture images of those elements """
+    print('Starting image creation...')
     args = get_args()
     input_file = args.input_file
     assets_dir = args.assets_dir
@@ -130,8 +144,8 @@ def main():
         with open(input_file, encoding='utf-8') as json_file:
             data = json.load(json_file)
             capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
-        for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'duplicate-id', 'list', 'listitem', 'definition-list', 'dlitem'):
             detect_full_html_loaded(driver)
+        for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'duplicate-id', 'list', 'listitem', 'definition-list', 'dlitem'):
             capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, sleep, driver)
     finally:
         driver.quit()
