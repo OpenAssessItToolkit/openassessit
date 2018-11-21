@@ -30,6 +30,7 @@ def get_firefox_driver():
     """ Get Firefox driver """
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
+    options.add_argument('--window-size=1400,800')
     return webdriver.Firefox(options=options)
 
 
