@@ -43,15 +43,30 @@ cd openassessit
 
 #### Run it
 
-Run OpenAssessIt in the container:
+Docker builds a tiny 1GB Docker Image (sorta like a VM) and installs everything inside that Container for you. It does not install any packages on your local computer.
+
+Build the latest OpenAssessIt image:
 
 ```
-docker-compose -f docker-compose.local.yml build
-docker-compose -f docker-compose.local.yml run app https://cats.com catshomepage firefox
-docker-compose -f docker-compose.local.yml down
+docker-compose -f docker-compose.local.yml up -d
 ```
 
-The audit will be copied into your `openassessit/tmp/` directory
+Build the Container to run the assessment (You can run as many assessments as you want from this Image build).
+
+docker-compose -f docker-compose.local.yml run openassessit [url] [foldername] [webdriver]
+
+```
+docker-compose -f docker-compose.local.yml run openassessit https://cats.com catshomepage firefox
+```
+
+When you are done, remove the Image and the Container.
+
+```
+docker-compose -f docker-compose.local.yml down --rmi all
+```
+
+The audit will automatically be copied into your `openassessit/tmp/` directory. 
+
 
 ---
 
