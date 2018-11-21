@@ -1,7 +1,7 @@
 # Suggested configuration for an accessibility audit
-The OpenAssesIt Toolkit is a suite of projects that are meant to be run independently or as a suite. Below is a suggested configuration. 
+The OpenAssesIt Toolkit is a suite of projects that are meant to be run independently or as a suite. Below is a suggested configuration.
 
-This project will take a Lighthouse JSON report, convert it to MarkDown, then take screenshots of all the failing elements.
+This project will take a Lighthouse JSON report, convert it to MarkDown, then take screenshots of all the failing elements.  
 
 This project can work on all audit categories, but current efforts are focused on the accessibility audits.
 
@@ -17,9 +17,9 @@ __2. Manually install prerequisites and run natively__
 
 ### 1. Run in Docker container
 
-This is the easiest way to get set up. 
+This is the easiest way to get set up. No stress, no mess.
 
-#### Prerequisites 
+#### Prerequisites
 
 Download and Install Docker for your OS:
 
@@ -32,7 +32,7 @@ Download and Install Docker for your OS:
 Download OpenAssessIt:
 
 ```
-git clone https://github.com/OpenAssessItToolkit/openassessit.git -b develop/add_docker
+git clone https://github.com/OpenAssessItToolkit/openassessit.git -b develop
 ```
 
 Change directory:
@@ -156,7 +156,7 @@ python openassessit/capture.py \
 open catsaudit.md
 ```
 
-Your markdown file is complete. You can use it as-is, or augment the content with additional custom help text.  I usually use MacDown and save them out as html files and host them on GitHub pages.
+Your markdown file is complete. You can use it as-is, or augment the content with additional custom help text. The Markdown file needs an editor compatible with "Markdown Extras" like [MacDown](https://macdown.uranusjr.com/) then you can use it to export it to HTML and put it up on GitHub pages.
 
 ## Notes
 
