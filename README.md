@@ -1,7 +1,7 @@
 # Suggested configuration for an accessibility audit
 The OpenAssesIt Toolkit is a suite of projects that are meant to be run independently or as a suite. Below is a suggested configuration.
 
-This project will take a Lighthouse JSON report, convert it to MarkDown, then take screenshots of all the failing elements.  
+This project will take a Lighthouse JSON report, convert it to MarkDown, then take screenshots of all the failing elements.
 
 This project can work on all audit categories, but current efforts are focused on the accessibility audits.
 
@@ -56,7 +56,7 @@ Build the Container to run the assessment (You can run as many assessments as yo
 docker-compose -f docker-compose.local.yml run openassessit [url] [foldername] [webdriver]
 
 ```
-docker-compose -f docker-compose.local.yml run openassessit https://cats.com catshomepage firefox
+docker-compose -f docker-compose.local.yml run openassessit https://cats.com catshomepage chrome
 ```
 
 When you are done, remove the Image and the Container.
@@ -65,7 +65,7 @@ When you are done, remove the Image and the Container.
 docker-compose -f docker-compose.local.yml down --rmi all
 ```
 
-The audit will automatically be copied into your `openassessit/tmp/` directory. 
+The audit will automatically be copied into your `openassessit/tmp/` directory.
 
 
 ---
