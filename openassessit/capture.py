@@ -111,10 +111,10 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
             print('The webdriver could not locate the element to create image.')
         else:
             im = Image.open(BytesIO(driver.get_screenshot_as_png())) # uses PIL library to open image in memory
-            im = im.crop((location['x'] -25,
-                          location['y'],
-                          location['x'] + size['width'] + 25,
-                          location['y'] + size['height']
+            im = im.crop((location['x'] -2,
+                          location['y'] -2,
+                          location['x'] + size['width'] +4,
+                          location['y'] + size['height'] +4
                         ))
             im.save(os.path.join(assets_dir,elem_image_name)) # saves new cropped image
             print('Created: "' + assets_dir + elem_image_name +'"')
