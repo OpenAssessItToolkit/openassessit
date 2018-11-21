@@ -14,10 +14,7 @@ SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
 class readable_dir(argparse.Action):
-    """Add an option for readable directories for argparse
-
-    https://stackoverflow.com/questions/11415570/directory-path-types-with-argparse
-    """
+    """ Add an option for readable directories for argparse https://bit.ly/2FBplyx """
     def __call__(self, parser, namespace, values, option_string=None):
         prospective_dir = values
         if not os.path.isdir(prospective_dir):
@@ -57,7 +54,7 @@ def get_args():
 
 
 def preprocess_data(data):
-
+    """ Parse Lighthouse JSON data """
     # Get audit_refs with weights in a nice dict before full pre-processing
     metadata = {}
 
@@ -106,6 +103,7 @@ def preprocess_data(data):
 
 
 def read_input(input_file):
+    """ Read Lighthouse JSON file  """
     if type(input_file) is str:
         with io.open(input_file, encoding='utf-8') as stream:
             return json.JSONDecoder().decode(stream.read())
@@ -114,6 +112,7 @@ def read_input(input_file):
 
 
 def write_output(output_file, rendered, force_stdout=False):
+    """ Write Markdown file """
     if output_file:
         with io.open(output_file, 'w', encoding='utf-8') as stream:
             stream.write(rendered)
@@ -123,6 +122,7 @@ def write_output(output_file, rendered, force_stdout=False):
 
 
 def main():
+    """ Parse Lighthouse JSON and convert to Markdown """
     args = get_args()
 
     paths = list()
