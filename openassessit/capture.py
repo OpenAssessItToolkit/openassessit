@@ -59,7 +59,6 @@ def detect_full_html_loaded(driver):
         new_html = driver.page_source
         if new_html != old_html:
             old_html = new_html
-            print('DOM load is taking too long, start image creation.')
         else:
             print('DOM is sufficently loaded.')
             break
