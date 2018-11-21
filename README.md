@@ -48,7 +48,7 @@ Docker builds a tiny 1GB Docker Image (sorta like a VM) and installs everything 
 Build the latest OpenAssessIt image:
 
 ```
-docker-compose -f docker-compose.local.yml up -d
+docker-compose -f docker-compose.local.yml build
 ```
 
 Build the Container to run the assessment (You can run as many assessments as you want from this Image build).
