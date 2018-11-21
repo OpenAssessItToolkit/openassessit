@@ -76,19 +76,23 @@ def create_backup_image(assets_dir, elem_identifier, elem_image_name):
 
 def capture_screenshot(assets_dir, url, sleep, driver):
     """ Take simple screenshot of above-the-fold """
-    driver.get(url)
-    time.sleep(sleep)
-    driver.set_window_size(1400, 700)
-    Image.open(BytesIO(driver.get_screenshot_as_png())).save(os.path.join(assets_dir,'screenshot.png'))
-    print('Created: "' + assets_dir  + 'screenshot.png' + '"')
+    try:
+        driver.get(url)
+        time.sleep(sleep)
+        driver.set_window_size(1400, 700)
+        Image.open(BytesIO(driver.get_screenshot_as_png())).save(os.path.join(assets_dir,'screenshot.png'))
+        print('Created: "' + assets_dir  + 'screenshot.png' + '"')
+    except Exception as ex:
+        print('Could not create screenshot for"' + url + '" because:')
+        print(ex)
 
 
 def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, driver):
     """ Capture image of element and save """
-    driver.get(url)
-    driver.set_window_size(1400, driver.execute_script("return document.body.parentNode.scrollHeight"))
 
     try:
+        driver.get(url)
+        driver.set_window_size(1400, driver.execute_script("return document.body.parentNode.scrollHeight"))
         elem = driver.find_element_by_css_selector(elem_identifier) # find element
         location = elem.location
         size = elem.size
