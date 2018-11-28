@@ -73,7 +73,7 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
     """ Capture image of element and save """
     try:
         driver.get(url)
-        driver.implicitly_wait(sleep)
+        time.sleep(3)
         driver.set_window_size(1400, driver.execute_script("return document.body.parentNode.scrollHeight"))
         elem = driver.find_element_by_css_selector(elem_identifier) # find element
         location = elem.location
