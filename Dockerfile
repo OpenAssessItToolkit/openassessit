@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Lighthouse cli
-RUN npm --global install -y lighthouse \
+RUN npm --global install -y lighthouse@^3.2.1 \
     && npm cache clean --force
 
 # Clone OpenAssessIt repos
