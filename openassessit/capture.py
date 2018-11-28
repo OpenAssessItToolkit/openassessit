@@ -7,6 +7,8 @@ import argparse
 import os
 import json
 from utils import generate_img_filename
+from utils import scroll_down
+from utils import detect_full_html_loaded
 from templates import template_path
 
 
@@ -46,37 +48,12 @@ def get_chrome_driver():
     return webdriver.Chrome(options=options)
 
 
-def scroll_down(driver, value):
-    """ Scroll down some """
-    driver.execute_script("window.scrollBy(0,"+str(value)+")")
-
-
-def detect_full_html_loaded(driver):
-    """ Keep scrolling until DOM is done changing """
-    n = 10
-    old_html = driver.page_source
-    while n > 0:
-        for i in range(2):
-            print('Waiting for DOM and ajaxy stuff to load...')
-            scroll_down(driver, 1000)
-            time.sleep(2)
-            n = n-1
-        new_html = driver.page_source
-        if new_html != old_html:
-            old_html = new_html
-        else:
-            print('DOM is sufficently loaded.')
-            break
-
-    return True
-
-
 def create_backup_image(assets_dir, elem_identifier, elem_image_name):
     """ Create fallback image """
     im = Image.new('RGB', (300, 50), color = (255,182,193))
     ImageDraw.Draw(im).text((20,20), 'Image could not be created. See Console.', fill=(0,0,0))
     im.save(os.path.join(assets_dir,elem_image_name))
-    print('Could not create: "' + elem_identifier + '" because:')
+    print('Warning: Could not create: "' + elem_identifier + '" because:')
 
 
 def capture_screenshot(assets_dir, url, sleep, driver):
@@ -88,13 +65,12 @@ def capture_screenshot(assets_dir, url, sleep, driver):
         Image.open(BytesIO(driver.get_screenshot_as_png())).save(os.path.join(assets_dir,'screenshot.png'))
         print('Created: "' + assets_dir  + 'screenshot.png' + '"')
     except Exception as ex:
-        print('Could not create screenshot for"' + url + '" because:')
+        print('Warning: Could not create screenshot for"' + url + '" because:')
         print(ex)
 
 
 def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, driver):
     """ Capture image of element and save """
-
     try:
         driver.get(url)
         driver.set_window_size(1400, driver.execute_script("return document.body.parentNode.scrollHeight"))
@@ -119,7 +95,7 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
             im.save(os.path.join(assets_dir,elem_image_name)) # saves new cropped image
             print('Created: "' + assets_dir + elem_image_name +'"')
     except Exception as ex:
-        print('Could not create image for"' + elem_identifier + '" because:')
+        print('Warning: Could not create image for"' + elem_identifier + '" because:')
         print(ex)
 
 
