@@ -76,7 +76,8 @@ def preprocess_data(data):
                 except TypeError as ex:
                     print('Exception "' + audit_ref['id'] + '" audit will be skipped: "' + str(ex) + '"\n' + str(audit) )
             elif 'errorMessage' in audit:
-                print('Lighthouse json input-file not valid. ErrorMessage in "'  + audit_ref['id'] + '" check Lighthouse config and re-run.')
+                print('Lighthouse json input-file not valid. ErrorMessage in "'  + audit_ref['id'] + '" check Lighthouse config and re-run. Markdown.py cannot run on invalid data.')
+                break
             data['categories'][cat]['audits'][audit_ref['id']] = audit
 
             # Add the weight right in to the audit bit, so we can easily sort
