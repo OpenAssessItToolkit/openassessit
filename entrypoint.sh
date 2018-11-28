@@ -4,9 +4,10 @@ mkdir -p /tmp/$2/assets;
 lighthouse $1 \
 --only-categories=accessibility \
 --no-enable-error-reporting \
+--disable-device-emulation \
+--chrome-flags="--headless --window-size=1300,600 --no-sandbox --disable-gpu" \
 --output="json" \
---output-path="/tmp/$2/$2.json" \
---chrome-flags="--headless --window-size=1300,600 --no-sandbox --disable-gpu --disable-device-emulation";
+--output-path="/tmp/$2/$2.json";
 python3 /app/openassessit/openassessit/markdown.py \
 --input-file="/tmp/$2/$2.json" \
 --output-file="/tmp/$2/$2.md" \

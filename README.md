@@ -7,15 +7,15 @@ This project can work on all audit categories, but current efforts are focused o
 
 ## Two options to get started:
 
-__1. Run in local Docker container__
+__Option 1. Run in local Docker container (recommended for new users)__
 
-OR
+_OR_
 
-__2. Manually install prerequisites and run natively__
+__Option 2. Manually install prerequisites and run natively__
 
 ---
 
-### 1. Run in Docker container
+### Option 1. Run in Docker container
 
 This is the easiest way to get set up. No stress, no mess.
 
@@ -43,26 +43,26 @@ cd openassessit
 
 #### Run it
 
-Docker builds a tiny 1GB Docker Image (sorta like a VM) and installs everything inside that Container for you. It does not install any packages on your local computer.
+Docker builds a tiny 1GB Docker Image (sorta like a VM) and installs everything inside that Container for you. _It does not install any packages on your local computer_.
 
 Build the latest OpenAssessIt image:
 
 ```
-docker-compose -f docker-compose.local.yml build
+docker-compose build
 ```
 
 Build the Container to run the assessment (You can run as many assessments as you want from this Image build).
 
-docker-compose -f docker-compose.local.yml run openassessit [url] [foldername] [webdriver]
+docker-compose run openassessit [url] [foldername] [webdriver]
 
 ```
-docker-compose -f docker-compose.local.yml run openassessit https://cats.com catshomepage chrome
+docker-compose run openassessit https://cats.com catshomepage chrome
 ```
 
 When you are done, remove the Image and the Container.
 
 ```
-docker-compose -f docker-compose.local.yml down --rmi all
+docker-compose down --rmi all
 ```
 
 The audit will automatically be copied into your `openassessit/tmp/` directory.
@@ -70,9 +70,9 @@ The audit will automatically be copied into your `openassessit/tmp/` directory.
 
 ---
 
-# OR
+# _OR_
 
-### 2. Manually install prerequisites and run locally
+### Option 2. Manually install prerequisites and run locally
 
 #### Prerequisites
 
@@ -160,8 +160,10 @@ Your markdown file is complete. You can use it as-is, or augment the content wit
 
 ## Notes
 
-1. If you want to change the order of the audits in the Markdown file, [custom Lighthouse config](https://gist.github.com/joelhsmith/21bb103e987da65c67f6420488643380) and change the weight `[categories][accessibility][auditRefs][id][weight]`
+1. If you want to change the order of the audits in the Markdown file, create a [custom Lighthouse config](https://gist.github.com/joelhsmith/21bb103e987da65c67f6420488643380) and change the weight `[categories][accessibility][auditRefs][id][weight]`
 
 2. The report creates images from elements listed in 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'duplicate-id', 'list', 'listitem', 'definition-list', 'dlitem'.
+
+3. For websites that require an exceptionally large amount of resources, you may need go into Docker's 'Advanced' preferences and increase it's resources.
 
 This project is only possible because of [ihadgraft](https://github.com/ihadgraft)'s generous donation of his expertise, time, and patience with [joelhsmith](https://github.com/joelhsmith).  Thank you Iain!
