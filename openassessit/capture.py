@@ -73,7 +73,6 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
     """ Capture image of element and save """
     try:
         driver.get(url)
-        driver.implicitly_wait(1)
         driver.set_window_size(1400, driver.execute_script("return document.body.parentNode.scrollHeight"))
         elem = driver.find_element_by_css_selector(elem_identifier) # find element
         location = elem.location
@@ -132,8 +131,8 @@ def main():
     try:
         with open(input_file, encoding='utf-8') as json_file:
             data = json.load(json_file)
-            capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
             detect_full_html_loaded(driver)
+            capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
         for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'duplicate-id', 'list', 'listitem', 'definition-list', 'dlitem'):
             capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, sleep, driver)
     finally:
