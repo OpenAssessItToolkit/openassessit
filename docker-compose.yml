@@ -2,5 +2,6 @@ version: "3"
 services:
   openassessit:
     build: .
+    shm_size: '1gb'
     volumes:
       - ./tmp/:/tmp/
