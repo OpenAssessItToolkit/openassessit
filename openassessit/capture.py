@@ -43,6 +43,7 @@ def get_chrome_driver():
     options.add_argument('--window-size=1400,800')
     options.add_argument("--disable-device-emulation")
     options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
     options.add_argument("--force-device-scale-factor=1")
     options.add_argument("--disable-dev-shm-usage") # https://bit.ly/2rcTZUB
     return webdriver.Chrome(options=options)
