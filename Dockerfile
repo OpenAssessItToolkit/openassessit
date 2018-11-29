@@ -56,6 +56,12 @@ RUN rm /tmp/chromedriver.zip
 RUN chmod +x chromedriver
 RUN mv chromedriver /usr/bin/
 
+# Add a chrome user and setup home dir. https://bit.ly/2BEE1ZA
+RUN groupadd --system chrome && \
+    useradd --system --create-home --gid chrome --groups audio,video chrome && \
+    mkdir --parents /home/chrome/reports && \
+    chown --recursive chrome:chrome /home/chrome
+
 # Define environment variable
 ENV NAME openassessit
 
