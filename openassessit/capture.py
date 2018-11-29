@@ -45,6 +45,7 @@ def get_chrome_driver():
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--force-device-scale-factor=1")
+    options.add_argument("--disable-dev-shm-usage")
     return webdriver.Chrome(options=options)
 
 
@@ -73,7 +74,7 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
     """ Capture image of element and save """
     try:
         driver.get(url)
-        time.sleep(3)
+        driver.implicitly_wait(1)
         driver.set_window_size(1400, driver.execute_script("return document.body.parentNode.scrollHeight"))
         elem = driver.find_element_by_css_selector(elem_identifier) # find element
         location = elem.location
