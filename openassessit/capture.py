@@ -63,9 +63,9 @@ def capture_screenshot(assets_dir, url, sleep, driver):
         time.sleep(sleep)
         driver.set_window_size(1400, 700)
         Image.open(BytesIO(driver.get_screenshot_as_png())).save(os.path.join(assets_dir,'screenshot.png'))
-        print('Created: "' + assets_dir  + 'screenshot.png' + '"')
+        print('Created: "' + 'screenshot.png' + '"')
     except Exception as ex:
-        print('Warning: Could not create screenshot for"' + url + '" because:')
+        print('Warning: Could not create screenshot for "' + url + '" because:')
         print(ex)
 
 
@@ -93,7 +93,7 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
                           location['y'] + size['height'] +4
                         ))
             im.save(os.path.join(assets_dir,elem_image_name)) # saves new cropped image
-            print('Created: "' + assets_dir + elem_image_name +'"')
+            print('Created: "' + elem_image_name +'"')
     except Exception as ex:
         print('Warning: Could not create image for"' + elem_identifier + '" because:')
         print(ex)
