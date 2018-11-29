@@ -4,6 +4,7 @@ if [ $# -ne 4 ]; then
     echo 'Requires: path or alias to your Lighthouse, url, output filename, webdriver'
     exit 1
 fi
+mkdir -p tmp/$3 \
 $1 $2 \
 --only-categories=accessibility \
 --no-enable-error-reporting \
@@ -15,7 +16,7 @@ python3 $(pwd)/openassessit/markdown.py \
 --input-file="$(pwd)/tmp/$3.json" \
 --output-file="$(pwd)/tmp/$3.md" \
 --user-template-path="$(pwd)/../openassessit_templates/templates/";
-mkdir -p tmp/assets;
+mkdir -p tmp/$3/assets;
 python3 $(pwd)/openassessit/capture.py \
 --input-file="$(pwd)/tmp/$3.json" \
 --assets-dir="$(pwd)/tmp/assets/" \
