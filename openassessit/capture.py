@@ -45,6 +45,7 @@ def get_chrome_driver():
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--force-device-scale-factor=1")
+    options.add_argument("--disable-dev-shm-usage") # https://bit.ly/2rcTZUB
     return webdriver.Chrome(options=options)
 
 
@@ -131,8 +132,8 @@ def main():
     try:
         with open(input_file, encoding='utf-8') as json_file:
             data = json.load(json_file)
-            capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
             detect_full_html_loaded(driver)
+            capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
         for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'duplicate-id', 'list', 'listitem', 'definition-list', 'dlitem'):
             capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, sleep, driver)
     finally:
