@@ -3,7 +3,7 @@ import re
 
 def generate_img_filename(url, identifier):
     """generate useful filename with a max of 150 chars"""
-    return re.sub(r'\W', '-', '%s%s' % (url[0:40], identifier[-110:])) + '.png'
+    return re.sub(r'\W', '', '%s%s' % (url[0:40], identifier[-110:])) + '.png'
 
 
 def scroll_down(driver, value):
