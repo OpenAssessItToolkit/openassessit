@@ -38,7 +38,7 @@ RUN git clone https://github.com/OpenAssessItToolkit/openassessit_templates.git
 
 # Install any needed packages specified in openassessits requirements.txt
 RUN pip3 install wheel
-RUN pip3 install --trusted-host pypi.python.org -r openassessit/requirements.txt
+RUN pip3 install -r openassessit/requirements.txt
 
 # TODO: Install a webdriver https://www.blazemeter.com/blog/how-to-run-selenium-tests-in-docker
 
