@@ -32,7 +32,7 @@ Download and Install Docker for your OS:
 Download OpenAssessIt:
 
 ```
-git clone https://github.com/OpenAssessItToolkit/openassessit.git -b develop
+git clone https://github.com/OpenAssessItToolkit/openassessit.git
 ```
 
 Change directory:
