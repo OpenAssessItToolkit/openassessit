@@ -1,7 +1,11 @@
-# Suggested configuration for an accessibility audit
-The OpenAssesIt Toolkit is a suite of projects that are meant to be run independently or as a suite. Below is a suggested configuration.
+# OpenAssessIt
 
-This project will take a Lighthouse JSON report, convert it to MarkDown, then take screenshots of all the failing elements.
+This project consumes a [Chrome Lighthouse](https://developers.google.com/web/tools/lighthouse/) JSON report and outputs a human readable version with screenshots of failing elements and suggestions on how to fix issues. The Accessibility portion of Chrome Lighthouse is largely sourced from [Deque's Axe-core](https://github.com/dequelabs/axe-core) engine. 
+
+The project is written in Python. But, no Python experience is needed to use this project in its Docker configuration. If you do know Python, we would love your help.
+
+
+# Suggested configuration for an accessibility audit
 
 This project can work on all audit categories, but current efforts are focused on the accessibility audits.
 

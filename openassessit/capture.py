@@ -94,6 +94,9 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
                         ))
             im.save(os.path.join(assets_dir,elem_image_name)) # saves new cropped image
             print('Created: "' + elem_image_name +'"')
+            if im.convert("L").getextrema() == (0, 0) and (size['width'] < 10): # is white and not an artifact
+                print('Warning: Image is all white. The HTML might be so invalid it cannot take a screenshot.')
+
     except Exception as ex:
         print('Warning: Could not create image for"' + elem_identifier + '" because:')
         print(ex)
