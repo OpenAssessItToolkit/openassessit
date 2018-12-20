@@ -6,11 +6,13 @@ import re
 import argparse
 import os
 import json
+import sys
+import logging
+from utils import initialize_logger
 from utils import generate_img_filename
 from utils import scroll_down
 from utils import detect_full_html_loaded
 from templates import template_path
-
 
 def get_args():
     example_text = '''
@@ -53,7 +55,7 @@ def create_backup_image(assets_dir, elem_identifier, elem_image_name):
     im = Image.new('RGB', (300, 50), color = (255,182,193))
     ImageDraw.Draw(im).text((20,20), 'Image could not be created. See Console.', fill=(0,0,0))
     im.save(os.path.join(assets_dir,elem_image_name))
-    print('Warning: Could not create: "' + elem_identifier + '" because:')
+    logging.warning('Could not create: "' + elem_identifier + '" because:')
 
 
 def capture_screenshot(assets_dir, url, sleep, driver):
@@ -63,10 +65,10 @@ def capture_screenshot(assets_dir, url, sleep, driver):
         time.sleep(sleep)
         driver.set_window_size(1400, 700)
         Image.open(BytesIO(driver.get_screenshot_as_png())).save(os.path.join(assets_dir,'screenshot.png'))
-        print('Created: "' + 'screenshot.png' + '"')
+        logging.info('Created: "' + 'screenshot.png' + '"')
     except Exception as ex:
-        print('Warning: Could not create screenshot for "' + url + '" because:')
-        print(ex)
+        logging.warning('Could not create screenshot of "' + url + '" because:')
+        logging.debug(ex)
 
 
 def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, driver):
@@ -81,10 +83,10 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
 
         if (size == {'height': 0.0, 'width': 0.0}):
             create_backup_image(assets_dir, elem_identifier, elem_image_name)
-            print('The element is invisible or has height and width of zero.')
+            logging.warning('The element is invisible or has height and width of zero.')
         elif not location:
             create_backup_image(assets_dir, elem_identifier, elem_image_name)
-            print('The webdriver could not locate the element to create image.')
+            logging.warning('The webdriver could not locate the element to create image.')
         else:
             im = Image.open(BytesIO(driver.get_screenshot_as_png())) # uses PIL library to open image in memory
             im = im.crop((location['x'] -2,
@@ -93,13 +95,13 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
                           location['y'] + size['height'] +4
                         ))
             im.save(os.path.join(assets_dir,elem_image_name)) # saves new cropped image
-            print('Created: "' + elem_image_name +'"')
-            if im.convert("L").getextrema() == (0, 0) and (size['width'] < 10): # is white and not an artifact
-                print('Warning: Image is all white. The HTML might be so invalid it cannot take a screenshot.')
-
+            logging.info('Created: "' + elem_image_name +'"')
+            if im.convert("L").getextrema() == (0, 0): # check if image is white
+                create_backup_image(assets_dir, elem_identifier, elem_image_name)
+                logging.warning(elem_image_name + '" image was all white. The HTML might be so invalid it cannot take a screenshot.')
     except Exception as ex:
-        print('Warning: Could not create image for"' + elem_identifier + '" because:')
-        print(ex)
+        logging.error('Could not create image for"' + elem_identifier + '" because:')
+        logging.error(ex)
 
 
 def identifier_generator(data, *auditref_whitelist):
@@ -108,24 +110,25 @@ def identifier_generator(data, *auditref_whitelist):
         audit = data.get('audits', {}).get(sel)
 
         if audit is None:
-            print("Invalid audit id: %s" % sel)
+            logging.error("Invalid audit id: %s" % sel)
             continue
 
         for item in audit.get('details', {}).get('items', []):
             if item['node']['selector'] == ':root':
-                print('Warning: Could not create screenshot for "' + url + '" because:')
-                print('Selector returned as ":root", no image will be created.') # If Axe returns ":root" it does not create a helpful screenshot
+                logging.warning('Selector returned as ":root", no image will be created.') # If Axe returns ":root" it does not create a helpful screenshot
             else:
                 yield item['node']['selector']
 
 
 def main():
     """ Parse Lighthouse JSON for failing elements and capture images of those elements """
-    print('Starting image creation...')
     args = get_args()
     input_file = args.input_file
     assets_dir = args.assets_dir
+    output_dir = os.path.dirname(args.input_file)
     sleep = args.sleep
+    initialize_logger('capture', output_dir)
+    logging.info('Starting image creation...')
     if args.driver == 'firefox':
         driver = get_firefox_driver()
     elif args.driver == 'chrome':
@@ -141,7 +144,7 @@ def main():
             capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, sleep, driver)
     finally:
         driver.quit()
-        print('Image creation complete in: "' + args.assets_dir + '"')
+        logging.info('Image creation complete in: "' + assets_dir + '"')
 
 
 if __name__ == '__main__':

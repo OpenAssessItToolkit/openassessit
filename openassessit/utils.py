@@ -1,5 +1,26 @@
 import time
 import re
+import logging
+import os.path
+
+
+def initialize_logger(module, output_dir):
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+
+    # create console handler and set level to info
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    # create debug file handler and set level to debug
+    handler = logging.FileHandler(os.path.join(output_dir, 'log-' + module + '.log'),'w')
+    # formatter = logging.Formatter('%(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
 
 def generate_img_filename(url, identifier):
     """generate useful filename with a max of 260 chars"""
@@ -17,7 +38,7 @@ def detect_full_html_loaded(driver):
     old_html = driver.page_source
     while n > 0:
         for i in range(2):
-            print('Waiting for DOM and ajaxy stuff to load...')
+            logging.info('Waiting for DOM and ajaxy stuff to load...')
             scroll_down(driver, 1000)
             time.sleep(2)
             n = n-1
@@ -25,7 +46,7 @@ def detect_full_html_loaded(driver):
         if new_html != old_html:
             old_html = new_html
         else:
-            print('DOM is sufficently loaded.')
+            logging.info('DOM is sufficently loaded.')
             break
 
     return True

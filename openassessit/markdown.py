@@ -7,7 +7,9 @@ from operator import itemgetter
 import json
 import sys
 import re
+import logging
 from utils import generate_img_filename
+from utils import initialize_logger
 from templates import template_path
 
 SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -74,9 +76,9 @@ def preprocess_data(data):
                 try:
                     audit['displayValue'] = audit['displayValue'][0] % tuple(audit['displayValue'][1:])
                 except TypeError as ex:
-                    print('Exception "' + audit_ref['id'] + '" audit will be skipped: "' + str(ex) + '"\n' + str(audit) )
+                    logging.warning('Exception "' + audit_ref['id'] + '" audit will be skipped: "' + str(ex) + '"\n' + str(audit) )
             elif 'errorMessage' in audit:
-                print('ERROR: Lighthouse json input-file not valid. ErrorMessage in "'  + audit_ref['id'] + '" check URL and Lighthouse config then re-run.')
+                logging.error('ERROR: Lighthouse json input-file not valid. ErrorMessage in "'  + audit_ref['id'] + '" check URL and Lighthouse config then re-run.')
             data['categories'][cat]['audits'][audit_ref['id']] = audit
 
             # Add the weight right in to the audit bit, so we can easily sort
@@ -124,7 +126,9 @@ def write_output(output_file, rendered, force_stdout=False):
 def main():
     """ Parse Lighthouse JSON and convert to Markdown """
     args = get_args()
-
+    input_file = args.input_file
+    output_file = args.output_file
+    output_dir = os.path.dirname(args.input_file)
     paths = list()
     if args.user_template_path:
         user_template_path = args.user_template_path
@@ -138,12 +142,13 @@ def main():
     template = loader.load(env, 'index.md')
 
     rendered = template.render({
-        'data': preprocess_data(read_input(args.input_file)),
+        'data': preprocess_data(read_input(input_file)),
         'generate_img_filename': generate_img_filename,
     })
 
-    write_output(args.output_file, rendered, force_stdout=args.e or not args.output_file)
-    print('Markdown convertion complete in: ' + args.output_file)
+    write_output(args.output_file, rendered, force_stdout=args.e or not output_file)
+    initialize_logger('markdown', output_dir)
+    logging.info('Markdown convertion complete in: ' + args.output_file)
 
 
 if __name__ == '__main__':
