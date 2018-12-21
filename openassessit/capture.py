@@ -68,7 +68,7 @@ def capture_screenshot(assets_dir, url, sleep, driver):
         logging.info('Created: "' + 'screenshot.png' + '"')
     except Exception as ex:
         logging.warning('Could not create screenshot of "' + url + '" because:')
-        logging.debug(ex)
+        logging.warning(ex)
 
 
 def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, driver):
