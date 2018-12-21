@@ -140,7 +140,7 @@ def main():
             data = json.load(json_file)
             detect_full_html_loaded(driver)
             capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
-        for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'duplicate-id', 'list', 'listitem', 'definition-list', 'dlitem'):
+        for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'duplicate-id', 'list', 'listitem', 'definition-list', 'dlitem', 'aria-allowed-attr', 'aria-required-attr', 'aria-required-children', 'aria-required-parent', 'aria-roles', 'aria-valid-attr-value', 'aria-valid-attr'):
             capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, sleep, driver)
     finally:
         driver.quit()
