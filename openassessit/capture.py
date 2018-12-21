@@ -64,7 +64,9 @@ def capture_screenshot(assets_dir, url, sleep, driver):
         driver.get(url)
         time.sleep(sleep)
         driver.set_window_size(1400, 700)
-        Image.open(BytesIO(driver.get_screenshot_as_png())).save(os.path.join(assets_dir,'screenshot.png'))
+        im = Image.open(BytesIO(driver.get_screenshot_as_png()))
+        im = im.resize([int(0.35 * s) for s in im.size], Image.ANTIALIAS)
+        im.save(os.path.join(assets_dir,'screenshot.png'))
         logging.info('Created: "' + 'screenshot.png' + '"')
     except Exception as ex:
         logging.warning('Could not create screenshot of "' + url + '" because:')
