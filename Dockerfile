@@ -40,8 +40,6 @@ RUN git clone https://github.com/OpenAssessItToolkit/openassessit_templates.git
 RUN pip3 install wheel
 RUN pip3 install -r openassessit/requirements.txt
 
-# TODO: Install a webdriver https://www.blazemeter.com/blog/how-to-run-selenium-tests-in-docker
-
 # Gecko Driver
 RUN wget -q "https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz" -O /tmp/geckodriver.tgz
 RUN tar -xvzf /tmp/geckodriver.tgz
