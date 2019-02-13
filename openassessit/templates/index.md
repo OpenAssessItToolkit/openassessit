@@ -5,7 +5,7 @@ __<{{ data.requestedUrl }}>__
 
 {% for cat_id, cat in data.categories.items() -%}
 <hr>
-#{{ cat.title }}
+# {{ cat.title }}
 {{ cat.description }}
 {% for audit in cat.sorted_audits %}
 
