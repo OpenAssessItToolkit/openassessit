@@ -1,4 +1,4 @@
-##{{ audit.title }}
+## {{ audit.title }}
 
 {% if audit.description %}
 {{ audit.description|escape }}
