@@ -1,6 +1,6 @@
 # OpenAssessIt
 
-This project consumes a [Chrome Lighthouse](https://developers.google.com/web/tools/lighthouse/) JSON report and outputs a human readable version with screenshots of failing elements and suggestions on how to fix issues. The Accessibility portion of Chrome Lighthouse is largely sourced from [Deque's Axe-core](https://github.com/dequelabs/axe-core) engine. 
+This project consumes a [Chrome Lighthouse](https://developers.google.com/web/tools/lighthouse/) JSON report and outputs a human readable version with screenshots of failing elements and suggestions on how to fix issues. The Accessibility portion of Chrome Lighthouse is largely sourced from [Deque's Axe-core](https://github.com/dequelabs/axe-core) engine.
 
 The project is written in Python. But, no Python experience is needed to use this project in its Docker configuration. If you do know Python, we would love your help.
 
@@ -151,18 +151,42 @@ python openassessit/capture.py \
 ```
 
 
----
-
-## Make friends and influence people
-
+__4) Review the issues__
 
 ```
 open catsaudit.md
 ```
 
-Your markdown file is complete. You can use it as-is, or augment the content with additional custom help text. The Markdown file needs an editor compatible with "Markdown Extras" like [MacDown](https://macdown.uranusjr.com/) then you can use it to export it to HTML and put it up on GitHub pages.
+You can use it as-is, or augment the content with additional custom help text. It takes a real human to validate and prioritize accessibility issues.  We recommend that people perform the list of manual tests and the results.
 
-## Notes
+
+The Markdown file works best with an editor compatible with "Markdown Extras" like [MacDown](https://macdown.uranusjr.com/) then you can use it to export it to HTML and put it up on GitHub pages.
+
+Or...
+
+
+__4) Convert MD to HTML after you are done editing it__
+
+We have a built in Markdown to HTML converter. The header and footer of the HTML are also customizable in the openassessit_templates folder.
+
+```
+python3 openassessit/to_html.py \
+--input-file="/abs/path/to/catsaudit.md" \
+--output-file="/abs/path/to/catsaudit.html" \
+--user-template-path="/abs/path/to/openassessit_templates/templates/"
+```
+
+```
+open catsaudit.html
+```
+
+
+---
+
+## Make friends and influence people
+
+
+### Notes
 
 1. If you want to change the order of the audits in the Markdown file, create a [custom Lighthouse config](https://gist.github.com/joelhsmith/21bb103e987da65c67f6420488643380) and change the weight `[categories][accessibility][auditRefs][id][weight]`
 
@@ -170,4 +194,8 @@ Your markdown file is complete. You can use it as-is, or augment the content wit
 
 3. For websites that require an exceptionally large amount of resources, you may need go into Docker's 'Advanced' preferences and increase it's resources.
 
-This project is only possible because of [ihadgraft](https://github.com/ihadgraft)'s generous donation of his expertise, time, and patience with [joelhsmith](https://github.com/joelhsmith).  Thank you Iain!
+This project is only possible because of [ihadgraft](https://github.com/ihadgraft)'s generous donation of his expertise, time, and patience with [joelhsmith](https://github.com/joelhsmith) and our other contributers:
+
+* [drewstinnett](https://github.com/(https://github.com/ptrin))
+* [ptrin](https://github.com/ptrin)
+* [thegreenbot](https://github.com/thegreenbot)
