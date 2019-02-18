@@ -16,9 +16,13 @@ python3 $(pwd)/openassessit/markdown.py \
 --input-file="$(pwd)/tmp/$3/$3.json" \
 --output-file="$(pwd)/tmp/$3/$3.md" \
 --user-template-path="$(pwd)/../openassessit_templates/templates/";
+python3 $(pwd)/openassessit/to_html.py \
+--input-file="$(pwd)/tmp/$3/$3.md" \
+--output-file="$(pwd)/tmp/$3/$3.html" \
+--user-template-path="$(pwd)/../openassessit_templates/templates/";
 mkdir -p $(pwd)/tmp/$3/assets;
 python3 $(pwd)/openassessit/capture.py \
 --input-file="$(pwd)/tmp/$3/$3.json" \
 --assets-dir="$(pwd)/tmp/$3/assets/" \
 --sleep=4 \
---driver=$4
+--driver=$4;

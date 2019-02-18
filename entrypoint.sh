@@ -17,4 +17,8 @@ python3 /app/openassessit/openassessit/capture.py \
 --assets-dir="/tmp/$2/assets/" \
 --sleep=4 \
 --driver=$3;
+python3 /app/openassessit/openassessit/to_html.py \
+--input-file="/tmp/$2/$2.md" \
+--output-file="/tmp/$2/$2.html" \
+--user-template-path="/app/openassessit_templates/templates/";
 zip -r /tmp/$2.zip /tmp/$2
