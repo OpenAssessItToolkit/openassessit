@@ -1,7 +1,10 @@
-# {{ data.requestedUrl|replace('https://', '')|capitalize }} Assessment
+#{{ data.requestedUrl|replace('https://', '')|capitalize }} Assessment
 
 __<{{ data.requestedUrl }}>__
 
+<div id="toc">
+<!--TOC-->
+</div>
 
 {% for cat_id, cat in data.categories.items() -%}
 <hr>
