@@ -11,25 +11,9 @@ import logging
 from utils import generate_img_filename
 from utils import initialize_logger
 from templates import template_path
+from utils import readable_dir
 
 SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
-
-
-class readable_dir(argparse.Action):
-    """ Add an option for readable directories for argparse https://bit.ly/2FBplyx """
-    def __call__(self, parser, namespace, values, option_string=None):
-        prospective_dir = values
-        if not os.path.isdir(prospective_dir):
-            raise argparse.ArgumentTypeError(
-               "readable_dir:{0} is not a valid path".format(prospective_dir)
-            )
-        if os.access(prospective_dir, os.R_OK):
-            setattr(namespace, self.dest, prospective_dir)
-        else:
-            raise argparse.ArgumentTypeError(
-                "readable_dir:{0} is not a readable dir".format(
-                    prospective_dir)
-            )
 
 
 def get_args():
