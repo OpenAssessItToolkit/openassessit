@@ -23,7 +23,9 @@ def initialize_logger(module, output_dir):
 
 def generate_img_filename(url, identifier):
     """ Generate useful filename with a max of 260 chars """
-    return re.sub(r'\W', '-', '%s%s' % (url[0:36], identifier[-210:])) + '.png'
+    url = re.sub(r"https?://(www\.)?", '', url)
+    identifier = re.sub(r'\W+', '-', identifier)
+    return re.sub(r'\W+', '-', '%s%s' % (url[0:40], identifier[-210:-1])) + '.png'
 
 
 def scroll_down(driver, value):
