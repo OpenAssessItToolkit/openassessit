@@ -24,7 +24,9 @@ def initialize_logger(module, output_dir):
 def generate_img_filename(url, identifier):
     """ Generate useful filename with a max of 260 chars """
     url_without_protocol = re.sub(r'https?://', '', url)
-    return re.sub(r'\W+', '-', '%s%s' % (url_without_protocol[0:36], identifier[-210:])) + '.png'
+    url_without_www = url_without_protocol.replace('www', '')
+    kebab_url = re.sub(r'\W+', '-', '%s%s' % (url_without_www[0:36], identifier[-210:])) + '.png'
+    return kebab_url.replace('-.', '.')
 
 
 def scroll_down(driver, value):
