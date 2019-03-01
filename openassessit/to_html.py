@@ -29,7 +29,6 @@ def get_args():
     parser.add_argument('-t', '--user-template-path',
                         action=readable_dir,
                         help='Provide filepath to custom user templates')
-    parser.add_argument('-e', action='store_true', default=False)
     return parser.parse_args()
 
 
