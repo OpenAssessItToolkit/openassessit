@@ -55,7 +55,11 @@ def create_backup_image(assets_dir, elem_identifier, elem_image_name):
     im = Image.new('RGB', (300, 50), color = (255,182,193))
     ImageDraw.Draw(im).text((20,20), 'Image could not be created. See Console.', fill=(0,0,0))
     im.save(os.path.join(assets_dir,elem_image_name))
-    logging.warning('Could not create: "' + elem_identifier + '" because:')
+    # try:
+    #     im.save(os.path.join(assets_dir,elem_image_name))
+    # except:
+    #     im.save(os.path.join(assets_dir,'no-image.png'))
+    #     logging.warning('Skiping element: "%s" because: %s' % (elem_identifier))
 
 
 def capture_screenshot(assets_dir, url, sleep, driver):
@@ -67,10 +71,10 @@ def capture_screenshot(assets_dir, url, sleep, driver):
         im = Image.open(BytesIO(driver.get_screenshot_as_png()))
         im = im.resize([int(0.35 * s) for s in im.size], Image.ANTIALIAS)
         im.save(os.path.join(assets_dir,'screenshot.png'))
-        logging.info('Created: "' + 'screenshot.png' + '"')
+        logging.info('Created: screenshot.png')
     except Exception as ex:
-        logging.warning('Could not create screenshot of "' + url + '" because:')
-        logging.warning(ex)
+        logging.warning('Skipping element "%s" because: %s' % (url, ex))
+        logging.debug(ex)
 
 
 def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, driver):
@@ -85,25 +89,26 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
 
         if (size == {'height': 0.0, 'width': 0.0}):
             create_backup_image(assets_dir, elem_identifier, elem_image_name)
-            logging.warning('The element is invisible or has height and width of zero.')
+            logging.warning('Skipping element because the element is invisible or has height and width of zero.')
         elif not location:
             create_backup_image(assets_dir, elem_identifier, elem_image_name)
-            logging.warning('The webdriver could not locate the element to create image.')
+            logging.warning('Skipping element because the webdriver could not locate the element to create image.')
         else:
             im = Image.open(BytesIO(driver.get_screenshot_as_png())) # uses PIL library to open image in memory
             im = im.crop((location['x'] -2,
-                          location['y'] -2,
-                          location['x'] + size['width'] +4,
-                          location['y'] + size['height'] +4
+                        location['y'] -2,
+                        location['x'] + size['width'] +4,
+                        location['y'] + size['height'] +4
                         ))
             im.save(os.path.join(assets_dir,elem_image_name)) # saves new cropped image
-            logging.info('Created: "' + elem_image_name +'"')
+            logging.info('Created: %s' % (elem_image_name))
             if im.convert("L").getextrema() == (0, 0): # check if image is white
                 create_backup_image(assets_dir, elem_identifier, elem_image_name)
-                logging.warning(elem_image_name + '" image was all white. The HTML might be so invalid it cannot take a screenshot.')
+                logging.warning('%s image was all white and not a useful image.' % (elem_image_name))
     except Exception as ex:
-        logging.error('Could not create image for"' + elem_identifier + '" because:')
-        logging.error(ex)
+        logging.warning('Skipping element "%s" because: %s:' % (elem_identifier, ex))
+        logging.debug(ex)
+        pass
 
 
 def identifier_generator(data, *auditref_whitelist):
@@ -146,7 +151,7 @@ def main():
             capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, sleep, driver)
     finally:
         driver.quit()
-        logging.info('Image creation complete in: "' + assets_dir + '"')
+        logging.info('Image creation complete in: "%s"' % (assets_dir))
 
 
 if __name__ == '__main__':

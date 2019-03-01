@@ -60,9 +60,9 @@ def preprocess_data(data):
                 try:
                     audit['displayValue'] = audit['displayValue'][0] % tuple(audit['displayValue'][1:])
                 except TypeError as ex:
-                    logging.warning('Exception "' + audit_ref['id'] + '" audit will be skipped: "' + str(ex) + '"\n' + str(audit) )
+                    logging.error('Exception "%s" audit skipped because: %s' % (audit_ref['id'], ex))
             elif 'errorMessage' in audit:
-                logging.error('ERROR: Lighthouse json input-file not valid. ErrorMessage in "'  + audit_ref['id'] + '" check URL and Lighthouse config then re-run.')
+                logging.error('Lighthouse json input-file not valid. ErrorMessage in "%s" check URL and Lighthouse config then re-run.' % (audit_ref['id']))
             data['categories'][cat]['audits'][audit_ref['id']] = audit
 
             # Add the weight right in to the audit bit, so we can easily sort
@@ -130,9 +130,9 @@ def main():
         'generate_img_filename': generate_img_filename,
     })
 
-    write_output(args.output_file, rendered, force_stdout=args.e or not output_file)
+    write_output(output_file, rendered, force_stdout=args.e or not output_file)
     initialize_logger('markdown', output_dir)
-    logging.info('Markdown convertion complete in: ' + args.output_file)
+    logging.info('Markdown convertion complete in: "%s"' % (output_file))
 
 
 if __name__ == '__main__':
