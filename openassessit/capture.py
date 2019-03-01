@@ -8,11 +8,8 @@ import os
 import json
 import sys
 import logging
-from utils import initialize_logger
-from utils import generate_img_filename
-from utils import scroll_down
-from utils import detect_full_html_loaded
-from templates import template_path
+from .utils import initialize_logger, generate_img_filename, scroll_down, detect_full_html_loaded
+from .templates import template_path
 
 def get_args():
     example_text = '''

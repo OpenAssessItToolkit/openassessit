@@ -8,10 +8,9 @@ import json
 import sys
 import re
 import logging
-from utils import generate_img_filename
-from utils import initialize_logger
-from templates import template_path
-from utils import readable_dir
+from .utils import generate_img_filename, initialize_logger, readable_dir
+from .templates import template_path
+
 
 SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 

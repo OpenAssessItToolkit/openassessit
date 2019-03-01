@@ -6,22 +6,21 @@ if [ $# -ne 4 ]; then
 fi
 mkdir -p $(pwd)/tmp/$3;
 $1 $2 \
---only-categories=accessibility \
 --no-enable-error-reporting \
 --disable-device-emulation \
 --chrome-flags="--headless --window-size=1300,600 --no-sandbox --disable-gpu" \
 --output="json" \
 --output-path="$(pwd)/tmp/$3/$3.json";
-python3 $(pwd)/openassessit/markdown.py \
+python3 -m openassessit.markdown \
 --input-file="$(pwd)/tmp/$3/$3.json" \
 --output-file="$(pwd)/tmp/$3/$3.md" \
 --user-template-path="$(pwd)/../openassessit_templates/templates/";
-python3 $(pwd)/openassessit/to_html.py \
+python3 -m openassessit.to_html \
 --input-file="$(pwd)/tmp/$3/$3.md" \
 --output-file="$(pwd)/tmp/$3/$3.html" \
 --user-template-path="$(pwd)/../openassessit_templates/templates/";
 mkdir -p $(pwd)/tmp/$3/assets;
-python3 $(pwd)/openassessit/capture.py \
+python3 -m openassessit.capture \
 --input-file="$(pwd)/tmp/$3/$3.json" \
 --assets-dir="$(pwd)/tmp/$3/assets/" \
 --sleep=4 \

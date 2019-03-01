@@ -6,9 +6,8 @@ import io
 import sys
 import logging
 import markdown2
-from utils import initialize_logger
-from templates import template_path
-from utils import readable_dir
+from .utils import initialize_logger, readable_dir
+from .templates import template_path
 
 SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -72,11 +71,11 @@ def main():
     TOC_MARKER = '<!--TOC-->'
     html = html.replace(TOC_MARKER, toc_html)
     output = "".join([header.render(), html, footer.render()])
-    output_dir = os.path.dirname(args.input_file)
+    output_dir = os.path.dirname(input_file)
     initialize_logger('html', output_dir)
-    write_output(args.output_file, output)
+    write_output(output_file, output)
 
-    logging.info('HTML conversion complete in: ' + args.output_file)
+    logging.info('HTML conversion complete in: ' + output_file)
 
 
 if __name__ == '__main__':
