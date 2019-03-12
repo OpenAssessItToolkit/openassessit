@@ -128,7 +128,7 @@ __2) Run Lighthouse to Markdown__
 Converts the json file to markdown.
 
 ```
-python openassessit/markdown.py \
+python -m openassessit.markdown \
 --input-file="catsaudit.json" \
 --output-file="catsaudit.md" \
 --user-template-path="/abs/path/to/openassessit_templates/templates/"
@@ -143,7 +143,7 @@ mkdir assets
 ```
 
 ```
-python openassessit/capture.py \
+python -m openassessit.capture \
 --input-file="/abs/path/to/catsaudit.json" \
 --assets-dir="/abs/path/to/assets/" \
 --sleep=1 \
@@ -170,7 +170,7 @@ __4) Convert MD to HTML after you are done editing it__
 We have a built in Markdown to HTML converter. The header and footer of the HTML are also customizable in the openassessit_templates folder.
 
 ```
-python3 openassessit/to_html.py \
+python3 -m openassessit.to_html  \
 --input-file="/abs/path/to/catsaudit.md" \
 --output-file="/abs/path/to/catsaudit.html" \
 --user-template-path="/abs/path/to/openassessit_templates/templates/"
