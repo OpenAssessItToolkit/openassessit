@@ -8,6 +8,7 @@ mkdir -p $(pwd)/tmp/$3;
 $1 $2 \
 --no-enable-error-reporting \
 --disable-device-emulation \
+--only-categories=accessibility \
 --chrome-flags="--headless --window-size=1300,600 --no-sandbox --disable-gpu" \
 --output="json" \
 --output-path="$(pwd)/tmp/$3/$3.json";
