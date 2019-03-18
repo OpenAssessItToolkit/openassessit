@@ -160,7 +160,7 @@ open catsaudit.md
 You can use it as-is, or augment the content with additional custom help text. It takes a real human to validate and prioritize accessibility issues.  We recommend that people perform the list of manual tests and the results.
 
 
-The Markdown file works best with an editor compatible with "Markdown Extras" like [MacDown](https://macdown.uranusjr.com/) then you can use it to export it to HTML and put it up on GitHub pages.
+The Markdown file works best with an editor compatible with "Markdown Extras" like __[MacDown](https://macdown.uranusjr.com/)__ then you can use it to export it to HTML from there.
 
 Or...
 
@@ -180,6 +180,7 @@ python3 -m openassessit.to_html  \
 open catsaudit.html
 ```
 
+When we are done, we host these assessments on GitHub pages.
 
 ---
 
@@ -192,7 +193,9 @@ open catsaudit.html
 
 2. The report creates images from elements listed in 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'duplicate-id', 'list', 'listitem', 'definition-list', 'dlitem'.
 
-3. For websites that require an exceptionally large amount of resources, you may need go into Docker's 'Advanced' preferences and increase it's resources.
+3. If there is a failing element in a visibly hidden element, it will take a screen shot of the coordinates of the failing element.  It does not know if the element is visible or not. As a result the screenshot will not always be what you expect it to be. Sometimes the screenshot being incorrect can be a helpful clue to debug the underlying problem.
+
+4. For websites that require an exceptionally large amount of resources, you may need go into Docker's 'Advanced' preferences and increase it's resources.
 
 This project is only possible because of [ihadgraft](https://github.com/ihadgraft)'s generous donation of his expertise, time, and patience with [joelhsmith](https://github.com/joelhsmith) and our other contributers:
 
