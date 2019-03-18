@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Assessment</title>
+        <style>
+            body {color: #333}
+            img {max-width:500px; height: auto; max-height: 500px; border: 1px solid #666; }
+            h2 {color: darkblue}
+            h3,h4 {color: black}
+            a {color: blue;}
+            a:hover {color:darkred;}
+            main { font-family: sans-serif;margin: 0 auto;width: 60em; }
+            pre { white-space: pre-wrap; }
+            #toc > ul { padding-left: 0; }
+            #toc > ul > li { list-style: none; }
+            p code, h1 code, h2 code, h3 code, h4 code { font-weight: bold; border: 1px dotted #e8e8e8; background: #f8f8f8; padding: 2px; }
+            .codehilite { padding: 7px; border: 1px dotted #e8e8e8;}
+            /* Pygments default.css for Markdown2 */
+            .codehilite .hll { background-color: #ffffcc }
+            .codehilite { background: #f8f8f8; }
+            .codehilite .c { color: #408080; font-style: italic } /* Comment */
+            /* .codehilite .err { border: 1px solid #FF0000 } /* Error */
+            .codehilite .k { color: #008000; font-weight: bold } /* Keyword */
+            .codehilite .o { color: #666666 } /* Operator */
+            .codehilite .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+            .codehilite .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+            .codehilite .cp { color: #BC7A00 } /* Comment.Preproc */
+            .codehilite .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+            .codehilite .c1 { color: #408080; font-style: italic } /* Comment.Single */
+            .codehilite .cs { color: #408080; font-style: italic } /* Comment.Special */
+            .codehilite .gd { color: #A00000 } /* Generic.Deleted */
+            .codehilite .ge { font-style: italic } /* Generic.Emph */
+            .codehilite .gr { color: #FF0000 } /* Generic.Error */
+            .codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+            .codehilite .gi { color: #00A000 } /* Generic.Inserted */
+            .codehilite .go { color: #888888 } /* Generic.Output */
+            .codehilite .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+            .codehilite .gs { font-weight: bold } /* Generic.Strong */
+            .codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+            .codehilite .gt { color: #0044DD } /* Generic.Traceback */
+            .codehilite .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+            .codehilite .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+            .codehilite .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+            .codehilite .kp { color: #008000 } /* Keyword.Pseudo */
+            .codehilite .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+            .codehilite .kt { color: #B00040 } /* Keyword.Type */
+            .codehilite .m { color: #666666 } /* Literal.Number */
+            .codehilite .s { color: #BA2121 } /* Literal.String */
+            .codehilite .na { color: #7D9029 } /* Name.Attribute */
+            .codehilite .nb { color: #008000 } /* Name.Builtin */
+            .codehilite .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+            .codehilite .no { color: #880000 } /* Name.Constant */
+            .codehilite .nd { color: #AA22FF } /* Name.Decorator */
+            .codehilite .ni { color: #999999; font-weight: bold } /* Name.Entity */
+            .codehilite .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+            .codehilite .nf { color: #0000FF } /* Name.Function */
+            .codehilite .nl { color: #A0A000 } /* Name.Label */
+            .codehilite .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+            .codehilite .nt { color: #008000; font-weight: bold } /* Name.Tag */
+            .codehilite .nv { color: #19177C } /* Name.Variable */
+            .codehilite .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+            .codehilite .w { color: #bbbbbb } /* Text.Whitespace */
+            .codehilite .mb { color: #666666 } /* Literal.Number.Bin */
+            .codehilite .mf { color: #666666 } /* Literal.Number.Float */
+            .codehilite .mh { color: #666666 } /* Literal.Number.Hex */
+            .codehilite .mi { color: #666666 } /* Literal.Number.Integer */
+            .codehilite .mo { color: #666666 } /* Literal.Number.Oct */
+            .codehilite .sa { color: #BA2121 } /* Literal.String.Affix */
+            .codehilite .sb { color: #BA2121 } /* Literal.String.Backtick */
+            .codehilite .sc { color: #BA2121 } /* Literal.String.Char */
+            .codehilite .dl { color: #BA2121 } /* Literal.String.Delimiter */
+            .codehilite .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+            .codehilite .s2 { color: #BA2121 } /* Literal.String.Double */
+            .codehilite .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+            .codehilite .sh { color: #BA2121 } /* Literal.String.Heredoc */
+            .codehilite .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+            .codehilite .sx { color: #008000 } /* Literal.String.Other */
+            .codehilite .sr { color: #BB6688 } /* Literal.String.Regex */
+            .codehilite .s1 { color: #BA2121 } /* Literal.String.Single */
+            .codehilite .ss { color: #19177C } /* Literal.String.Symbol */
+            .codehilite .bp { color: #008000 } /* Name.Builtin.Pseudo */
+            .codehilite .fm { color: #0000FF } /* Name.Function.Magic */
+            .codehilite .vc { color: #19177C } /* Name.Variable.Class */
+            .codehilite .vg { color: #19177C } /* Name.Variable.Global */
+            .codehilite .vi { color: #19177C } /* Name.Variable.Instance */
+            .codehilite .vm { color: #19177C } /* Name.Variable.Magic */
+            .codehilite .il { color: #666666 } /* Literal.Number.Integer.Long */
+        </style>
+    </head>
+    <body>
+        <main><h1 id="catscom-assessment">Cats.com/ Assessment</h1>
+
+<p><strong><a href="https://cats.com/">https://cats.com/</a></strong></p>
+
+<p><strong>Screenshot:</strong></p>
+
+<p><img src="assets/screenshot.png" alt="Screenshot of this website" /></p>
+
+<div id="toc">
+<ul>
+  <li><a href="#catscom-assessment">Cats.com/ Assessment</a></li>
+  <li><a href="#accessibility">Accessibility</a>
+  <ul>
+    <li><a href="#form-elements-do-not-have-associated-labels-wcag-332httpswwww3orgwaiwcag21quickrefversions20labels-or-instructions">Form elements do not have associated labels <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#labels-or-instructions">WCAG 3.3.2</a></a></li>
+    <li><a href="#background-and-foreground-colors-do-not-have-a-sufficient-contrast-ratio-wcag-143httpswwww3orgwaiwcag21quickrefversions20contrast-minimum">Background and foreground colors do not have a sufficient contrast ratio. <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#contrast-minimum">WCAG 1.4.3</a></a></li>
+    <li><a href="#user-scalableno-is-used-in-the-meta-nameviewport-element-or-the-maximum-scale-attribute-is-less-than-5-wcag-144httpswwww3orgwaiwcag21quickrefversions20resize-text"><code>[user-scalable="no"]</code> is used in the <code>&lt;meta name="viewport"&gt;</code> element or the <code>[maximum-scale]</code> attribute is less than 5. <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#resize-text">WCAG 1.4.4</a></a></li>
+    <li><a href="#accesskey-values-are-unique-wcag-21httpswwww3orgwaiwcag21quickrefkeyboard-accessible"><code>[accesskey]</code> values are unique <a href="https://www.w3.org/WAI/WCAG21/quickref/#keyboard-accessible">WCAG 2.1</a></a></li>
+    <li><a href="#the-page-has-a-logical-tab-order-wcag-243httpswwww3orgwaiwcag21quickrefversions20focus-order">The page has a logical tab order <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#focus-order">WCAG 2.4.3</a></a></li>
+    <li><a href="#interactive-controls-are-keyboard-focusable-wcag-211httpswwww3orgwaiwcag21quickrefversions20keyboard">Interactive controls are keyboard focusable <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#keyboard">WCAG 2.1.1</a></a></li>
+    <li><a href="#interactive-elements-indicate-their-purpose-and-state-wcag-141httpswwww3orgwaiwcag21quickrefuse-of-color-wcag-133httpswwww3orgwaiwcag21quickrefsensory-characteristics">Interactive elements indicate their purpose and state  <a href="https://www.w3.org/WAI/WCAG21/quickref/#use-of-color">WCAG 1.4.1</a> <a href="https://www.w3.org/WAI/WCAG21/quickref/#sensory-characteristics">WCAG 1.3.3</a></a></li>
+    <li><a href="#the-users-focus-is-directed-to-new-content-added-to-the-page-wcag-322httpswwww3orgwaiwcag21quickrefversions20on-input">The user's focus is directed to new content added to the page <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#on-input">WCAG 3.2.2</a></a></li>
+    <li><a href="#user-focus-is-not-accidentally-trapped-in-a-region-wcag-212httpswwww3orgwaiwcag21quickrefversions20no-keyboard-trap">User focus is not accidentally trapped in a region <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#no-keyboard-trap">WCAG 2.1.2</a></a></li>
+    <li><a href="#custom-controls-have-associated-labels-wcag-412httpswwww3orgwaiwcag21quickrefversions20name-role-value">Custom controls have associated labels <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#name-role-value">WCAG 4.1.2</a></a></li>
+    <li><a href="#custom-controls-have-aria-roles-wcag-412httpswwww3orgwaiwcag21quickrefversions20name-role-value">Custom controls have ARIA roles <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#name-role-value">WCAG 4.1.2</a></a></li>
+    <li><a href="#visual-order-on-the-page-follows-dom-order-wcag-132httpswwww3orgwaiwcag21quickrefversions20meaningful-sequence">Visual order on the page follows DOM order <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#meaningful-sequence">WCAG 1.3.2</a></a></li>
+    <li><a href="#offscreen-content-is-hidden-from-assistive-technology-wcag-211httpswwww3orgwaiwcag21quickrefversions20keyboard-wcag-243httpswwww3orgwaiwcag21quickrefversions20focus-order">Offscreen content is hidden from assistive technology <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#keyboard">WCAG 2.1.1</a> <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#focus-order">WCAG 2.4.3</a></a></li>
+    <li><a href="#headings-dont-skip-levels-wcag-246httpswwww3orgwaiwcag21quickrefversions20headings-and-labels">Headings don't skip levels <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#headings-and-labels">WCAG 2.4.6</a></a></li>
+    <li><a href="#html5-landmark-elements-are-used-to-improve-navigation-wcag-131httpswwww3orgwaiwcag21quickrefversions20info-and-relationships-wcag-241httpswwww3orgwaiwcag21quickrefversions20bypass-blocks">HTML5 landmark elements are used to improve navigation <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#info-and-relationships">WCAG 1.3.1</a> <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#bypass-blocks">WCAG 2.4.1</a></a></li>
+  </ul></li>
+</ul>
+
+</div>
+
+<p><br>
+<hr></p>
+
+<h1 id="accessibility">Accessibility</h1>
+
+<p>These checks highlight opportunities to <a href="https://developers.google.com/web/fundamentals/accessibility">improve the accessibility of your web app</a>. Only a subset of accessibility issues can be automatically detected so manual testing is also encouraged.</p>
+
+<p>These items address areas which an automated testing tool cannot cover. Learn more in our guide on <a href="https://developers.google.com/web/fundamentals/accessibility/how-to-review">conducting an accessibility review</a>.</p>
+
+<h2 id="form-elements-do-not-have-associated-labels-wcag-332httpswwww3orgwaiwcag21quickrefversions20labels-or-instructions">Form elements do not have associated labels <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#labels-or-instructions">WCAG 3.3.2</a></h2>
+
+<p>Labels ensure that form controls are announced properly by assistive technologies, like screen readers. <a href="https://dequeuniversity.com/rules/axe/3.1/label?application=lighthouse">Learn more</a>.</p>
+
+<h3 id="this-element-is-missing-a-label">This element is missing a label</h3>
+
+<p><strong>Visual location:</strong></p>
+
+<p><img src="assets/cats-com-phon.png" alt="Element missing label" /></p>
+
+<p><strong>HTML location:</strong></p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">&lt;</span><span class="nt">input</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;phone&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;phone&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;tel&quot;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;Enter your phone number&quot;</span> <span class="na">autocomplete</span><span class="o">=</span><span class="s">&quot;off&quot;</span> <span class="na">required</span><span class="o">=</span><span class="s">&quot;required&quot;</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<h4 id="suggested-solution">Suggested solution:</h4>
+
+<p>Add <code>&lt;label for="something"&gt;</code> to associate the label with that form field. If the form element does not have an ID attribute to associate add <code>id="something"</code>.
+If you wish to visually hide the label then add a class like <code>.sr-only</code> or <code>.element-invisible</code> to the <code>&lt;label&gt;</code>.</p>
+
+<p>If that already exists, add a <code>placeholder</code> attribute. Hidden labels require a <code>placeholder</code> attribute so people know what the field is for.</p>
+
+<p><details>
+<summary><em>Other options:</em></summary>
+Fix any of the following:
+<br>aria-label attribute does not exist or is empty
+<br>aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
+<br>Form element does not have an implicit (wrapped) &lt;label&gt;
+<br>Form element does not have an explicit &lt;label&gt;
+<br>Element has no title attribute or the title attribute is empty
+</details></p>
+
+<p><details>
+<summary><em>Additional debugging details</em></summary>
+Path:<br>
+<code>1,HTML,1,BODY,1,SECTION,0,DIV,1,DIV,0,FORM,1,DIV,0,INPUT</code><br>
+Selector:<br>
+<code>#phone</code>
+</details></p>
+
+<hr />
+
+<h2 id="background-and-foreground-colors-do-not-have-a-sufficient-contrast-ratio-wcag-143httpswwww3orgwaiwcag21quickrefversions20contrast-minimum">Background and foreground colors do not have a sufficient contrast ratio. <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#contrast-minimum">WCAG 1.4.3</a></h2>
+
+<p>Low-contrast text is difficult or impossible for many users to read. <a href="https://dequeuniversity.com/rules/axe/3.1/color-contrast?application=lighthouse">Learn more</a>.</p>
+
+<h3 id="the-element-_give-me-20-off_-has-low-contrast">The element <em>"Give Me 20% Off"</em> has low contrast.</h3>
+
+<p><strong>Visual location:</strong></p>
+
+<p><img src="assets/cats-com-notify_m.png" alt="Text with low contrast" /></p>
+
+<p><strong>HTML location:</strong></p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">&lt;</span><span class="nt">button</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;notify_me&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span><span class="p">&gt;</span>Give Me 20% Off<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<h4 id="suggested-solution-2">Suggested solution:</h4>
+
+<p>Element has insufficient color contrast of 2.37 (foreground color: #ffffff, background color: #ff847d, font size: 16.5pt, font weight: normal). Expected contrast ratio of 4.5:1</p>
+
+<p><a href="http://contrast-finder.tanaguru.com">Find a color with higher contrast</a>.</p>
+
+<p><details>
+<summary><em>Additional debugging details</em></summary>
+Path:<br>
+<code>1,HTML,1,BODY,1,SECTION,0,DIV,1,DIV,0,FORM,2,BUTTON</code><br>
+Selector:<br>
+<code>#notify_me</code>
+</details></p>
+
+<hr />
+
+<h2 id="user-scalableno-is-used-in-the-meta-nameviewport-element-or-the-maximum-scale-attribute-is-less-than-5-wcag-144httpswwww3orgwaiwcag21quickrefversions20resize-text"><code>[user-scalable="no"]</code> is used in the <code>&lt;meta name="viewport"&gt;</code> element or the <code>[maximum-scale]</code> attribute is less than 5. <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#resize-text">WCAG 1.4.4</a></h2>
+
+<p>Disabling zooming is problematic for users with low vision who rely on screen magnification to properly see the contents of a web page. <a href="https://dequeuniversity.com/rules/axe/3.1/meta-viewport?application=lighthouse">Learn more</a>.</p>
+
+<h3 id="this-meta-tag-has-attributes-that-are-detrimental-to-accessibility">This <code>&lt;meta&gt;</code> tag has attributes that are detrimental to accessibility.</h3>
+
+<p><strong>HTML location:</strong></p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width,initial-scale=1,maximum-scale=1&quot;</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<h4 id="suggested-solution-3">Suggested solution:</h4>
+
+<p>If applicable:</p>
+
+<ol>
+<li><p>Change <code>maximum-scale=1.0</code> to at least <code>maximum-scale=5</code>.</p></li>
+<li><p>Remove the <code>user-scaleable=no</code> attribute from the meta tag.</p></li>
+</ol>
+
+<p><details>
+<summary><em>Other options:</em></summary>
+Fix any of the following:
+<br>maximum-scale on &lt;meta&gt; tag disables zooming on mobile devices
+</details></p>
+
+<p><details>
+<summary><em>Additional debugging details</em></summary>
+Path:<br>
+<code>1,HTML,0,HEAD,1,META</code><br>
+Selector:<br>
+<code>meta[name="viewport"]</code>
+</details></p>
+
+<hr />
+
+<h2 id="accesskey-values-are-unique-wcag-21httpswwww3orgwaiwcag21quickrefkeyboard-accessible"><code>[accesskey]</code> values are unique <a href="https://www.w3.org/WAI/WCAG21/quickref/#keyboard-accessible">WCAG 2.1</a></h2>
+
+<p><strong>I need a human!</strong> Manual Test: <code>[accesskey]</code> values are unique</p>
+
+<p>Description:<br>
+Access keys let users quickly focus a part of the page. For proper navigation, each access key must be unique. <a href="https://dequeuniversity.com/rules/axe/3.1/accesskeys?application=lighthouse">Learn more</a>.</p>
+
+<p>Using the <code>accesskey</code> attribute is discouraged because they can interfere with assistive technology. On most websites they are not necessary or helpful. If they do exist, they must be unique.</p>
+
+<hr />
+
+<h2 id="the-page-has-a-logical-tab-order-wcag-243httpswwww3orgwaiwcag21quickrefversions20focus-order">The page has a logical tab order <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#focus-order">WCAG 2.4.3</a></h2>
+
+<p><strong>I need a human!</strong> Manual Test: The page has a logical tab order</p>
+
+<p>Description:<br>
+Tabbing through the page follows the visual layout. Users cannot focus elements that are offscreen. <a href="https://developers.google.com/web/fundamentals/accessibility/how-to-review#start_with_the_keyboard">Learn more</a>.</p>
+
+<hr />
+
+<h2 id="interactive-controls-are-keyboard-focusable-wcag-211httpswwww3orgwaiwcag21quickrefversions20keyboard">Interactive controls are keyboard focusable <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#keyboard">WCAG 2.1.1</a></h2>
+
+<p><strong>I need a human!</strong> Manual Test: Interactive controls are keyboard focusable</p>
+
+<p>Description:<br>
+Custom interactive controls are keyboard focusable and display a focus indicator. <a href="https://developers.google.com/web/fundamentals/accessibility/how-to-review#start_with_the_keyboard">Learn more</a>.</p>
+
+<p>Pay special attention to menus. The user should be able access the entire menu with the keyboard alone.</p>
+
+<hr />
+
+<h2 id="interactive-elements-indicate-their-purpose-and-state-wcag-141httpswwww3orgwaiwcag21quickrefuse-of-color-wcag-133httpswwww3orgwaiwcag21quickrefsensory-characteristics">Interactive elements indicate their purpose and state  <a href="https://www.w3.org/WAI/WCAG21/quickref/#use-of-color">WCAG 1.4.1</a> <a href="https://www.w3.org/WAI/WCAG21/quickref/#sensory-characteristics">WCAG 1.3.3</a></h2>
+
+<p><strong>I need a human!</strong> Manual Test: Interactive elements indicate their purpose and state</p>
+
+<p>Description:<br>
+Interactive elements, such as links and buttons, should indicate their state and be distinguishable from non-interactive elements. <a href="https://developers.google.com/web/fundamentals/accessibility/how-to-review#interactive_elements_like_links_and_buttons_should_indicate_their_purpose_and_state">Learn more</a>.</p>
+
+<p>Pay special attention to buttons and links.  For example, links and buttons should have obvious :hover and :focus states that meet WCAG 2.0 AA contrast requirements.</p>
+
+<hr />
+
+<h2 id="the-users-focus-is-directed-to-new-content-added-to-the-page-wcag-322httpswwww3orgwaiwcag21quickrefversions20on-input">The user's focus is directed to new content added to the page <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#on-input">WCAG 3.2.2</a></h2>
+
+<p><strong>I need a human!</strong> Manual Test: The user&#39;s focus is directed to new content added to the page</p>
+
+<p>Description:<br>
+If new content, such as a dialog, is added to the page, the user&#39;s focus is directed to it. <a href="https://developers.google.com/web/fundamentals/accessibility/how-to-review#start_with_the_keyboard">Learn more</a>.</p>
+
+<p>Pay special attention to popup windows like ads or email signup solicitations. </p>
+
+<hr />
+
+<h2 id="user-focus-is-not-accidentally-trapped-in-a-region-wcag-212httpswwww3orgwaiwcag21quickrefversions20no-keyboard-trap">User focus is not accidentally trapped in a region <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#no-keyboard-trap">WCAG 2.1.2</a></h2>
+
+<p><strong>I need a human!</strong> Manual Test: User focus is not accidentally trapped in a region</p>
+
+<p>Description:<br>
+A user can tab into and out of any control or region without accidentally trapping their focus. <a href="https://developers.google.com/web/fundamentals/accessibility/how-to-review#start_with_the_keyboard">Learn more</a>.</p>
+
+<hr />
+
+<h2 id="custom-controls-have-associated-labels-wcag-412httpswwww3orgwaiwcag21quickrefversions20name-role-value">Custom controls have associated labels <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#name-role-value">WCAG 4.1.2</a></h2>
+
+<p><strong>I need a human!</strong> Manual Test: Custom controls have associated labels</p>
+
+<p>Description:<br>
+Custom interactive controls have associated labels, provided by aria-label or aria-labelledby. <a href="https://developers.google.com/web/fundamentals/accessibility/how-to-review#try_it_with_a_screen_reader">Learn more</a>.</p>
+
+<hr />
+
+<h2 id="custom-controls-have-aria-roles-wcag-412httpswwww3orgwaiwcag21quickrefversions20name-role-value">Custom controls have ARIA roles <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#name-role-value">WCAG 4.1.2</a></h2>
+
+<p><strong>I need a human!</strong> Manual Test: Custom controls have ARIA roles</p>
+
+<p>Description:<br>
+Custom interactive controls have appropriate ARIA roles. <a href="https://developers.google.com/web/fundamentals/accessibility/how-to-review#try_it_with_a_screen_reader">Learn more</a>.</p>
+
+<hr />
+
+<h2 id="visual-order-on-the-page-follows-dom-order-wcag-132httpswwww3orgwaiwcag21quickrefversions20meaningful-sequence">Visual order on the page follows DOM order <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#meaningful-sequence">WCAG 1.3.2</a></h2>
+
+<p><strong>I need a human!</strong> Manual Test: Visual order on the page follows DOM order</p>
+
+<p>Description:<br>
+DOM order matches the visual order, improving navigation for assistive technology. <a href="https://developers.google.com/web/fundamentals/accessibility/how-to-review#try_it_with_a_screen_reader">Learn more</a>.</p>
+
+<p><a href="https://www.textise.net/">Textise</a> is a neat tool for inspecting the natural order of the website. <a href="https://www.textise.net/showText.aspx?strURL=cats.com/">View this website on Textise</a>. If nothing has been done in JS to interfere the natural tab order, looking at that or viewing the source will basically follow the order of the markup.</p>
+
+<hr />
+
+<h2 id="offscreen-content-is-hidden-from-assistive-technology-wcag-211httpswwww3orgwaiwcag21quickrefversions20keyboard-wcag-243httpswwww3orgwaiwcag21quickrefversions20focus-order">Offscreen content is hidden from assistive technology <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#keyboard">WCAG 2.1.1</a> <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#focus-order">WCAG 2.4.3</a></h2>
+
+<p><strong>I need a human!</strong> Manual Test: Offscreen content is hidden from assistive technology</p>
+
+<p>Description:<br>
+Offscreen content is hidden with display: none or aria-hidden=true. <a href="https://developers.google.com/web/fundamentals/accessibility/how-to-review#try_it_with_a_screen_reader">Learn more</a>.</p>
+
+<p>Pay special attention to menus. For example, the focus indicator should not be lost while tabbing through a menu.</p>
+
+<hr />
+
+<h2 id="headings-dont-skip-levels-wcag-246httpswwww3orgwaiwcag21quickrefversions20headings-and-labels">Headings don't skip levels <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#headings-and-labels">WCAG 2.4.6</a></h2>
+
+<p><strong>I need a human!</strong> Manual Test: Headings don&#39;t skip levels</p>
+
+<p>Description:<br>
+Headings are used to create an outline for the page and heading levels are not skipped. <a href="https://developers.google.com/web/fundamentals/accessibility/how-to-review#take_advantage_of_headings_and_landmarks">Learn more</a>.</p>
+
+<hr />
+
+<h2 id="html5-landmark-elements-are-used-to-improve-navigation-wcag-131httpswwww3orgwaiwcag21quickrefversions20info-and-relationships-wcag-241httpswwww3orgwaiwcag21quickrefversions20bypass-blocks">HTML5 landmark elements are used to improve navigation <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#info-and-relationships">WCAG 1.3.1</a> <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#bypass-blocks">WCAG 2.4.1</a></h2>
+
+<p><strong>I need a human!</strong> Manual Test: HTML5 landmark elements are used to improve navigation</p>
+
+<p>Description:<br>
+Landmark elements (&lt;main&gt;, &lt;nav&gt;, etc.) are used to improve the keyboard navigation of the page for assistive technology. <a href="https://developers.google.com/web/fundamentals/accessibility/how-to-review#take_advantage_of_headings_and_landmarks">Learn more</a>.</p>
+
+<p>Most websites are required to have some way to skip to the main content of a webpage. This can be done by using skip-to by-pass block as the first keyboard focusable link on the page.  Alternatively, or in addition to that method adding landmarks for <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code>, and <code>&lt;main&gt;</code> attribute will allow screen reader users to easily access all parts of the webpage.</p>
+
+<hr />
+
+<p><hr>
+<hr></p>
+
+<p>This accessibility assessment was generated from a <a href="https://developers.google.com/web/tools/lighthouse/">Chrome Lighthouse</a> report. The Accessibility portion of Chrome Lighthouse is largely sourced from <a href="https://github.com/dequelabs/axe-core">Deque's Axe-core</a> engine.</p>
+
+<p>Thorough testing should also include testing with the <a href="http://wave.webaim.org/">WAVE Web Accessibility Evaluation tool</a>.</p>
+
+<p>Accessibility testing also requires a human to determine the validity and seriousness of an issue. Automated tests like this only catch about 40% of accessibility issues. For example, automated tests cannot tell if a menu is keyboard accessible. Please follow the checklist of manual items that require a human to test. </p>
+
+<p>You can re-run the automated section of this report yourself using the open-source <a href="https://github.com/OpenAssessItToolkit/openassessit">OpenAssessIt project</a> on GitHub.</p>
+        </main>
+    </body>
+</html>
