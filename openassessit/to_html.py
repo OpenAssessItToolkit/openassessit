@@ -16,11 +16,11 @@ def get_args():
     example_text = '''
     examples:
 
-    python openassessit/%(lighthouse)s -i /tmp/assessment.md -o /tmp/assessment.html
+    python openassessit/to_html -i /tmp/assessment.md -o /tmp/assessment.html
 
-    python openassessit/%(lighthouse)s -i /tmp/assessment.md -o /tmp/assessment.html -t /your/templates
+    python openassessit/to_html -i /tmp/assessment.md -o /tmp/assessment.html -t /your/templates
 
-    ''' % {'lighthouse': os.path.basename(__file__)}
+    '''
 
     parser = argparse.ArgumentParser(epilog=example_text, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-i', '--input-file', help='Provide a the path to an input file', default=sys.stdin)

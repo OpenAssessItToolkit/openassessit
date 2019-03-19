@@ -19,13 +19,13 @@ def get_args():
     example_text = '''
     examples:
 
-    python openassessit/%(lighthouse)s -i /tmp/lighthouse-report.json -o /tmp/lighthouse-report.md
+    python  -m openassessit.markdown -i /tmp/lighthouse-report.json -o /tmp/lighthouse-report.md
 
-    python openassessit/%(lighthouse)s -i /tmp/lighthouse-report.json -o /tmp/lighthouse-report.md -t /your/templates
+    python  -m openassessit.markdown -i /tmp/lighthouse-report.json -o /tmp/lighthouse-report.md -t /your/templates
 
-    lighthouse  https://cats.com --output=json | python openassessit/%(lighthouse)s -o lighthouse-report.md
+    lighthouse  https://cats.com --output=json | python  -m openassessit.markdown -o lighthouse-report.md
 
-    ''' % {'lighthouse': os.path.basename(__file__)}
+    '''
 
     parser = argparse.ArgumentParser(epilog=example_text, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-i', '--input-file', help='Provide a the path to an input file', default=sys.stdin)

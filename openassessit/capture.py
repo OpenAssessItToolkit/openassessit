@@ -15,9 +15,9 @@ def get_args():
     example_text = '''
     examples:
 
-    python openassessit/%(capture_element_pic)s --input-file="/abs/path/to/lighthouse-report.json" --assets-dir="/abs/path/to/assets" --sleep=1 --driver=firefox
+    python -m openassessit.capture --input-file="/abs/path/to/lighthouse-report.json" --assets-dir="/abs/path/to/assets" --sleep=1 --driver=firefox
 
-    ''' % {'capture_element_pic': os.path.basename(__file__)}
+    '''
 
     parser = argparse.ArgumentParser(epilog=example_text, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-i', '--input-file', help='Use absolute path to the lighthouse json report')
