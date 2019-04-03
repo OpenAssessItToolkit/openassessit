@@ -51,6 +51,8 @@ Docker builds a tiny 1GB Docker Image (sorta like a VM) and installs everything 
 
 Build the latest OpenAssessIt image:
 
+_Note: It might take up to 5 minutes for it to download everything._
+
 ```
 docker-compose build
 ```
@@ -109,6 +111,8 @@ git clone https://github.com/OpenAssessItToolkit/openassessit_templates.git
 ```
 
 #### Run
+
+_Note: You could optionally use the run.sh file to run all these commands in serial._
 
 __1) Create a Lighthouse json accessibility audit file to import__
 
