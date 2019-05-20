@@ -21,14 +21,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
     && apt-get install -y npm chromium-browser imagemagick \
     && apt-get install -y git \
     && apt-get install -y wget \
+    && apt-get install -y curl \
     && apt-get install -y zip \
     && apt-get install -y vim \
     && apt-get install -y firefox \
     && apt-get clean \
+    && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+    && apt install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Lighthouse cli
-RUN npm --global install -y lighthouse@^4.1.0 \
+RUN npm --global install -y lighthouse@^5.0.0 \
     && npm cache clean --force
 
 # Clone OpenAssessIt repos
