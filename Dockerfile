@@ -14,10 +14,9 @@ ENV DEBIAN_FRONTEND noninteractive
 # Set the working directory to /app
 WORKDIR /app
 
-# Install Python, Pip, Git, and Chromium
+# Install apps
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
     python3-setuptools \
-    python3.5 \
     python3-pip \
     && apt-get install -y npm chromium-browser imagemagick \
     && apt-get install -y git \
