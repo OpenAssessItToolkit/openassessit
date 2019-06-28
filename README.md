@@ -4,6 +4,10 @@ This project consumes a [Chrome Lighthouse](https://developers.google.com/web/to
 
 The project is written in Python. But, no Python experience is needed to use this project in its Docker configuration. If you do know Python, we would love your help.
 
+__Below is a link to a quick video that explains what OpenAssessIt does for you:__
+
+https://youtu.be/xqAs0RMc1Rs
+
 
 # Suggested configuration for an accessibility audit
 
