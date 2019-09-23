@@ -35,7 +35,7 @@ Download and Install Docker for your OS:
 
 [Docker for Windows](https://docs.docker.com/docker-for-windows/install/)
 
-NOTE: Currently Docker container verions is still using the computers local headless verion of Chrome instead of the version inside the Docker container.  Until we get that ironed out, please verify that a webdriver is [installed](https://pypi.org/project/selenium/#drivers) (Firefox gecko or Chrome) and verify that [Chrome Lighthouse](https://github.com/GoogleChrome/lighthouse/) is [installed](https://github.com/GoogleChrome/lighthouse#using-the-node-cli) `lighthouse --version`
+NOTE: Currently Docker container verions is still using the computers local headless version of Chrome instead of the version inside the Docker container.  Until we get that ironed out, please verify that a webdriver is [installed](https://pypi.org/project/selenium/#drivers) (Firefox gecko or Chrome) and verify that [Chrome Lighthouse](https://github.com/GoogleChrome/lighthouse/) is [installed](https://github.com/GoogleChrome/lighthouse#using-the-node-cli) `lighthouse --version`
 
 #### Setup
 
