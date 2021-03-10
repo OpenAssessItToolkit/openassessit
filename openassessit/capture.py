@@ -67,8 +67,12 @@ def capture_screenshot(assets_dir, url, sleep, driver):
         driver.set_window_size(1400, 700)
         im = Image.open(BytesIO(driver.get_screenshot_as_png()))
         im = im.resize([int(0.35 * s) for s in im.size], Image.ANTIALIAS)
-        im.save(os.path.join(assets_dir,'screenshot.png'))
-        logging.info('Created: screenshot.png')
+        # im.save(os.path.join(assets_dir,'screenshot.png'))
+        # logging.info('Created: screenshot.png')
+        shot_name = generate_img_filename(url, '_screenshot_')
+        print(shot_name)
+        im.save(os.path.join(assets_dir,shot_name))
+        logging.info('Created: ' + shot_name)
     except Exception as ex:
         logging.warning('Skipping element "%s" because: %s' % (url, ex))
         logging.debug(ex)
@@ -144,7 +148,7 @@ def main():
             data = json.load(json_file)
             detect_full_html_loaded(driver)
             capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
-        for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'duplicate-id', 'list', 'listitem', 'definition-list', 'dlitem', 'aria-allowed-attr', 'aria-required-attr', 'aria-required-children', 'aria-required-parent', 'aria-roles', 'aria-valid-attr-value', 'aria-valid-attr'):
+        for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'list', 'listitem', 'definition-list', 'dlitem', 'aria-allowed-attr', 'aria-required-attr', 'aria-required-children', 'aria-required-parent', 'aria-roles', 'aria-valid-attr-value', 'aria-valid-attr'):
             capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, sleep, driver)
     finally:
         driver.quit()
