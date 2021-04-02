@@ -88,8 +88,9 @@ The audit will automatically be copied into your `openassessit/tmp/` directory.
 
 #### Prerequisites
 
-1. Don't be intimidated, you can do this.
 
+
+1. [Start up a virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
 2. Verify that [Chrome Lighthouse](https://github.com/GoogleChrome/lighthouse/) is [installed](https://github.com/GoogleChrome/lighthouse#using-the-node-cli) `lighthouse --version`
 3. Verify that [Python](https://www.python.org/) is [installed](https://realpython.com/installing-python/), preferaby Python 3.6+, `python --version` or `python3 --version`
 4. Verify that [PIP](https://pypi.org/project/pip/) is [installed](https://www.makeuseof.com/tag/install-pip-for-python/) `pip --version` (Note Pip already comes with Python 2.7.9+ and 3.4+)
