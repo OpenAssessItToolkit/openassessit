@@ -88,7 +88,7 @@ The audit will automatically be copied into your `openassessit/tmp/` directory.
 
 #### Prerequisites
 
-
+Note: Works with [Lighthouse 6.5.0](https://github.com/GoogleChrome/lighthouse/releases/tag/v6.5.0)
 
 1. [Start up a virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
 2. Verify that [Chrome Lighthouse](https://github.com/GoogleChrome/lighthouse/) is [installed](https://github.com/GoogleChrome/lighthouse#using-the-node-cli) `lighthouse --version`
