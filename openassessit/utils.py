@@ -3,6 +3,8 @@ import re
 import logging
 import os.path
 import argparse
+import string
+import random
 
 
 def initialize_logger(module, output_dir):
@@ -25,7 +27,8 @@ def generate_img_filename(url, identifier):
     """ Generate useful filename with a max of 260 chars """
     url = re.sub(r"https?://(www\.)?", '', url)
     identifier = re.sub(r'\W+', '-', identifier)
-    return re.sub(r'\W+', '-', '%s%s' % (url[0:40], identifier[-210:-1])) + '.png'
+    unique = ''.join(random.choice(string.digits) for i in range(6))
+    return re.sub(r'\W+', '-', '%s%s' % (url[0:30], identifier[-200:-1])) + unique + '.png'
 
 
 def scroll_down(driver, value):
