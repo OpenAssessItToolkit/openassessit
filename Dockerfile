@@ -1,5 +1,5 @@
 # Parent image
-FROM ubuntu:18.10
+FROM ubuntu:20.04
 
 LABEL name "openassessit"
 LABEL maintainer Joel Crawford-Smith <jhc36@duke.edu>
@@ -15,20 +15,51 @@ ENV DEBIAN_FRONTEND noninteractive
 WORKDIR /app
 
 # Install apps
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
-    python3-setuptools \
-    python3-pip \
-    && apt-get install -y npm chromium-browser imagemagick \
-    && apt-get install -y git \
-    && apt-get install -y wget \
-    && apt-get install -y curl \
-    && apt-get install -y zip \
-    && apt-get install -y vim \
-    && apt-get install -y firefox \
-    && apt-get clean \
-    && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
-    && apt install -y nodejs \
-    && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
+#     python3-setuptools \
+#     python3-pip \
+#     && apt-get install -y npm imagemagick \
+#     && apt-get install -y git \
+#     && apt-get install -y wget \
+#     && apt-get install -y curl \
+#     && apt-get install -y zip \
+#     && apt-get install -y vim \
+#     && apt-get install -y firefox \
+#     && apt-get clean \
+#     && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+#     && apt install -y nodejs \
+#     && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y \
+  apt-transport-https \
+  ca-certificates \
+  curl \
+  gnupg \
+  --no-install-recommends \
+  && curl -sSL https://deb.nodesource.com/setup_12.x | bash - \
+  && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
+  && apt-get update && apt-get install -y \
+  google-chrome-stable \
+  fontconfig \
+  fonts-ipafont-gothic \
+  fonts-wqy-zenhei \
+  fonts-thai-tlwg \
+  fonts-kacst \
+  fonts-symbola \
+  fonts-noto \
+  fonts-freefont-ttf \
+  nodejs \
+  wget \
+  git \
+  firefox \
+  python3-setuptools \
+  python3-pip \
+  zip \
+  unzip \
+  --no-install-recommends \
+  && apt-get purge --auto-remove -y curl gnupg \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install Lighthouse cli
 RUN npm --global install -y lighthouse@6.5.0 \
