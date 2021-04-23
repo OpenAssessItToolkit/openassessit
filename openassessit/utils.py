@@ -27,8 +27,7 @@ def generate_img_filename(url, identifier):
     """ Generate useful filename with a max of 260 chars """
     url = re.sub(r"https?://(www\.)?", '', url)
     identifier = re.sub(r'\W+', '-', identifier)
-    unique = ''.join(random.choice(string.digits) for i in range(6))
-    return re.sub(r'\W+', '-', '%s%s' % (url[0:30], identifier[-200:-1])) + unique + '.png'
+    return re.sub(r'\W+', '-', '%s%s' % (url[0:30], identifier[-200:-1])) + '.png'
 
 
 def scroll_down(driver, value):
