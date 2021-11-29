@@ -94,7 +94,7 @@ Note: Works with [Lighthouse 6.5.0](https://github.com/GoogleChrome/lighthouse/r
 2. Verify that [Chrome Lighthouse](https://github.com/GoogleChrome/lighthouse/) is [installed](https://github.com/GoogleChrome/lighthouse#using-the-node-cli) `lighthouse --version`
 3. Verify that [Python](https://www.python.org/) is [installed](https://realpython.com/installing-python/), preferaby Python 3.6+, `python --version` or `python3 --version`
 4. Verify that [PIP](https://pypi.org/project/pip/) is [installed](https://www.makeuseof.com/tag/install-pip-for-python/) `pip --version` (Note Pip already comes with Python 2.7.9+ and 3.4+)
-5. Verify that a webdriver is [installed](https://pypi.org/project/selenium/#drivers) (Firefox gecko or Chrome)
+5. Verify that a webdriver is [installed](https://pypi.org/project/selenium/#drivers) ([Firefox geckodriver 0.30.0](https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz)  or [Chrome 2.44](https://chromedriver.storage.googleapis.com/2.44/chromedriver_linux64.zip))
 6. Run `pip install -r requirements.txt` from the root of this repo to install Selenium, Jinja2, and Pillow.
 7. Read the README.md files.
 
@@ -158,7 +158,7 @@ python -m openassessit.capture \
 --input-file="/abs/path/to/catsaudit.json" \
 --assets-dir="/abs/path/to/assets/" \
 --sleep=1 \
---driver=firefox
+--driver=chrome
 ```
 
 

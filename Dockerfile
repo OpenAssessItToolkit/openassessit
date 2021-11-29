@@ -15,21 +15,6 @@ ENV DEBIAN_FRONTEND noninteractive
 WORKDIR /app
 
 # Install apps
-# RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
-#     python3-setuptools \
-#     python3-pip \
-#     && apt-get install -y npm imagemagick \
-#     && apt-get install -y git \
-#     && apt-get install -y wget \
-#     && apt-get install -y curl \
-#     && apt-get install -y zip \
-#     && apt-get install -y vim \
-#     && apt-get install -y firefox \
-#     && apt-get clean \
-#     && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
-#     && apt install -y nodejs \
-#     && rm -rf /var/lib/apt/lists/*
-
 RUN apt-get update && apt-get install -y \
   apt-transport-https \
   ca-certificates \
@@ -74,14 +59,14 @@ RUN pip3 install wheel
 RUN pip3 install -r openassessit/requirements.txt
 
 # Gecko Driver
-RUN wget -q "https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz" -O /tmp/geckodriver.tgz
+RUN wget -q "https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz" -O /tmp/geckodriver.tgz
 RUN tar -xvzf /tmp/geckodriver.tgz
 RUN rm /tmp/geckodriver.tgz
 RUN chmod +x geckodriver
 RUN mv geckodriver /usr/bin/
 
 # Chrome Driver
-RUN wget -q "https://chromedriver.storage.googleapis.com/2.43/chromedriver_linux64.zip" -O /tmp/chromedriver.zip
+RUN wget -q "https://chromedriver.storage.googleapis.com/2.44/chromedriver_linux64.zip" -O /tmp/chromedriver.zip
 RUN unzip /tmp/chromedriver.zip
 RUN rm /tmp/chromedriver.zip
 RUN chmod +x chromedriver

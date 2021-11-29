@@ -1,3 +1,13 @@
+# 1.2.0 (2021-11-29)
+
+- Compatible with Lighthouse 6.5.0
+- Option 1. Run in local Docker container (recommended for new users):
+ - Updated to Ubuntu 20 and Node 12 to run Lighthouse 6.5.0
+ - Updated Chromedriver and Geckodriver to newer versions
+- Option 2. Manually install prerequisites and run natively:
+  - Chrome Lighthouse requires Node 12 to run Lighthouse 6.5.0
+
+
 # 1.1.0 (2019-05-20)
 
 - Compatible with Lighthouse 5
