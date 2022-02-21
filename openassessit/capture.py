@@ -69,7 +69,7 @@ def capture_screenshot(assets_dir, url, sleep, driver):
         im = im.resize([int(0.35 * s) for s in im.size], Image.ANTIALIAS)
         # im.save(os.path.join(assets_dir,'screenshot.png'))
         # logging.info('Created: screenshot.png')
-        shot_name = generate_img_filename(url, '_screenshot_')
+        shot_name = generate_img_filename(url, 'cat', '_screenshot_')
         print(shot_name)
         im.save(os.path.join(assets_dir,shot_name))
         logging.info('Created: ' + shot_name)
@@ -78,7 +78,7 @@ def capture_screenshot(assets_dir, url, sleep, driver):
         logging.debug(ex)
 
 
-def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, driver):
+def capture_element_pic(input_file, assets_dir, url, elem_identifier, lhIdee, sleep, driver):
     """ Capture image of element and save """
     try:
         driver.get(url)
@@ -86,7 +86,7 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
         elem = driver.find_element_by_css_selector(elem_identifier) # find element
         location = elem.location
         size = elem.size
-        elem_image_name = generate_img_filename(url, elem_identifier)
+        elem_image_name = generate_img_filename(url, elem_identifier, lhIdee)
 
         if (size == {'height': 0.0, 'width': 0.0}):
             create_backup_image(assets_dir, elem_identifier, elem_image_name)
@@ -96,10 +96,10 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, sleep, dri
             logging.warning('Skipping element because the webdriver could not locate the element to create image.')
         else:
             im = Image.open(BytesIO(driver.get_screenshot_as_png())) # uses PIL library to open image in memory
-            im = im.crop((location['x'] -2,
-                        location['y'] -2,
-                        location['x'] + size['width'] +4,
-                        location['y'] + size['height'] +4
+            im = im.crop((location['x'] -4,
+                        location['y'] -4,
+                        location['x'] + size['width'] +8,
+                        location['y'] + size['height'] +8
                         ))
             im.save(os.path.join(assets_dir,elem_image_name)) # saves new cropped image
             logging.info('Created: %s' % (elem_image_name))
@@ -125,7 +125,7 @@ def identifier_generator(data, *auditref_whitelist):
             if item['node']['selector'] == ':root':
                 logging.warning('Selector returned as ":root", no image will be created.') # If Axe returns ":root" it does not create a helpful screenshot
             else:
-                yield item['node']['selector']
+                yield item['node']['selector'], item['node']['lhId']
 
 
 def main():
@@ -148,8 +148,8 @@ def main():
             data = json.load(json_file)
             detect_full_html_loaded(driver)
             capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
-        for sel in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'list', 'listitem', 'definition-list', 'dlitem', 'aria-allowed-attr', 'aria-required-attr', 'aria-required-children', 'aria-required-parent', 'aria-roles', 'aria-valid-attr-value', 'aria-valid-attr'):
-            capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, sleep, driver)
+        for sel,lhIdee in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'list', 'listitem', 'definition-list', 'dlitem', 'aria-allowed-attr', 'aria-required-attr', 'aria-required-children', 'aria-required-parent', 'aria-roles', 'aria-valid-attr-value', 'aria-valid-attr'):
+            capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, lhIdee, sleep, driver)
     finally:
         driver.quit()
         logging.info('Image creation complete in: "%s"' % (assets_dir))

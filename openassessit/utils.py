@@ -23,11 +23,11 @@ def initialize_logger(module, output_dir):
     logger.addHandler(handler)
 
 
-def generate_img_filename(url, identifier):
+def generate_img_filename(url, identifier, lhIdee):
     """ Generate useful filename with a max of 260 chars """
     url = re.sub(r"https?://(www\.)?", '', url)
     identifier = re.sub(r'\W+', '-', identifier)
-    return re.sub(r'\W+', '-', '%s%s' % (url[0:30], identifier[-200:-1])) + '.png'
+    return re.sub(r'\W+', '-', '%s%s%s' % (url[0:100], identifier[-100:0], lhIdee)) + '.png'
 
 
 def scroll_down(driver, value):
