@@ -1,6 +1,7 @@
 from __future__ import print_function
 import argparse
 import jinja2
+import markupsafe
 import os
 import io
 from operator import itemgetter
