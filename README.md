@@ -86,7 +86,14 @@ The audit will automatically be copied into your `openassessit/tmp/` directory.
 
 ### Option 2. Manually install prerequisites and run locally
 
-#### Prerequisites
+
+
+```
+brew install node@12
+brew link node@12
+brew install geckodriver
+brew install chromedriver
+```
 
 Note: Works with [Lighthouse 6.5.0](https://github.com/GoogleChrome/lighthouse/releases/tag/v6.5.0)
 
@@ -166,6 +173,18 @@ __4) Review the issues__
 
 ```
 open catsaudit.md
+```
+
+__OR run all the commands together with the `run.sh` file__
+
+```
+chmod +x run.sh
+```
+
+Example: 
+
+```
+./run.sh lighthouse https:/cats.com/ catscom firefox
 ```
 
 You can use it as-is, or augment the content with additional custom help text. It takes a real human to validate and prioritize accessibility issues.  We recommend that people perform the list of manual tests and the results.

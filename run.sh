@@ -7,9 +7,9 @@ fi
 mkdir -p $(pwd)/tmp/$3;
 $1 $2 \
 --no-enable-error-reporting \
---emulated-form-factor=none \
+--preset=desktop \
 --only-categories=accessibility \
---chrome-flags="--headless --window-size=1300,600 --no-sandbox --disable-gpu" \
+--chrome-flags="--headless --window-size=1300,600 --no-sandbox --disable-gpu --preset=desktop" \
 --output="json" \
 --output-path="$(pwd)/tmp/$3/$3.json";
 python3 -m openassessit.markdown \

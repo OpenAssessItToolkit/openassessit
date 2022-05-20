@@ -21,11 +21,8 @@ RUN apt-get update && apt-get install -y \
   curl \
   gnupg \
   --no-install-recommends \
-  && curl -sSL https://deb.nodesource.com/setup_12.x | bash - \
-  && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
-  && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
+  && curl -sSL https://deb.nodesource.com/setup_14.x | bash - \
   && apt-get update && apt-get install -y \
-  google-chrome-stable \
   fontconfig \
   fonts-ipafont-gothic \
   fonts-wqy-zenhei \
@@ -46,8 +43,11 @@ RUN apt-get update && apt-get install -y \
   && apt-get purge --auto-remove -y curl gnupg \
   && rm -rf /var/lib/apt/lists/*
 
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
+
 # Install Lighthouse cli
-RUN npm --global install -y lighthouse@6.5.0 \
+RUN npm --global install -y lighthouse@8.0 \
     && npm cache clean --force
 
 # Clone OpenAssessIt repos
