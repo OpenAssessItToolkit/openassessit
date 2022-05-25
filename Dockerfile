@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y \
   fonts-symbola \
   fonts-noto \
   fonts-freefont-ttf \
+  fonts-liberation \
   nodejs \
   wget \
   git \
@@ -39,12 +40,17 @@ RUN apt-get update && apt-get install -y \
   python3-pip \
   zip \
   unzip \
+  libnss3 \
+  libdrm2 \
+  libgbm1 \
+  xdg-utils \
   --no-install-recommends \
   && apt-get purge --auto-remove -y curl gnupg \
   && rm -rf /var/lib/apt/lists/*
 
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
+RUN dpkg -i google-chrome-stable_current_amd64.deb && apt-get -fy install
+RUN rm google-chrome-stable_current_amd64.deb
 
 # Install Lighthouse cli
 RUN npm --global install -y lighthouse@8.0 \
@@ -66,7 +72,7 @@ RUN chmod +x geckodriver
 RUN mv geckodriver /usr/bin/
 
 # Chrome Driver
-RUN wget -q "https://chromedriver.storage.googleapis.com/2.44/chromedriver_linux64.zip" -O /tmp/chromedriver.zip
+RUN wget -q "https://chromedriver.storage.googleapis.com/101.0.4951.15/chromedriver_linux64.zip" -O /tmp/chromedriver.zip
 RUN unzip /tmp/chromedriver.zip
 RUN rm /tmp/chromedriver.zip
 RUN chmod +x chromedriver
