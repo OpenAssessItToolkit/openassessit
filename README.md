@@ -15,7 +15,7 @@ This project can work on all audit categories, but current efforts are focused o
 
 ## Two options to get started:
 
-__Option 1. Run in local Docker container (recommended for new users)__
+__Option 1. Run in local Docker container (No longer works on Mac OS 12.4)__
 
 _OR_
 
@@ -87,15 +87,15 @@ The audit will automatically be copied into your `openassessit/tmp/` directory.
 ### Option 2. Manually install prerequisites and run locally
 
 
-
 ```
-brew install node@12
-brew link node@12
+brew install node@14
+brew link node@14
+npm --global install -y lighthouse@8.0
 brew install geckodriver
 brew install chromedriver
 ```
 
-Note: Works with [Lighthouse 6.5.0](https://github.com/GoogleChrome/lighthouse/releases/tag/v6.5.0)
+Note: Works with [Lighthouse 8.0](https://github.com/GoogleChrome/lighthouse/releases/tag/v8.0)
 
 1. [Start up a virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
 2. Verify that [Chrome Lighthouse](https://github.com/GoogleChrome/lighthouse/) is [installed](https://github.com/GoogleChrome/lighthouse#using-the-node-cli) `lighthouse --version`
@@ -134,7 +134,7 @@ __1) Create a Lighthouse json accessibility audit file to import__
 ```
 lighthouse https://cats.com \
 --only-categories=accessibility \
---disable-device-emulation \
+--preset=desktop \
 --output=json \
 --output-path=catsaudit.json \
 --chrome-flags="--headless --window-size=1300,600"

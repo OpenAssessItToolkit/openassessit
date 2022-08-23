@@ -1,3 +1,10 @@
+# 1.3.0 (2022-08-23)
+
+- Compatible with Lighthouse 8
+- Option 1. Run in local Docker container (No longer works on Mac OS 12.4, still works on Ubuntu)
+- Option 2. Manaully intsall prerequisits and run natively:
+  - Chrome Lighthouse requires Node 14 to run Lighthouse 8.0
+
 # 1.2.0 (2021-11-29)
 
 - Compatible with Lighthouse 6.5.0
