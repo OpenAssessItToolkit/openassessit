@@ -66,7 +66,7 @@ def capture_screenshot(assets_dir, url, sleep, driver):
         time.sleep(sleep)
         driver.set_window_size(1400, 700)
         im = Image.open(BytesIO(driver.get_screenshot_as_png()))
-        im = im.resize([int(0.35 * s) for s in im.size], Image.ANTIALIAS)
+        im = im.resize([int(0.35 * s) for s in im.size], Image.LANCZOS)
         # im.save(os.path.join(assets_dir,'screenshot.png'))
         # logging.info('Created: screenshot.png')
         shot_name = generate_img_filename(url, 'cat', '_screenshot_')
