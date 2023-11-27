@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
   curl \
   gnupg \
   --no-install-recommends \
-  && curl -sSL https://deb.nodesource.com/setup_14.x | bash - \
+  && curl -sSL https://deb.nodesource.com/setup_16.x | bash - \
   && apt-get update && apt-get install -y \
   fontconfig \
   fonts-ipafont-gothic \
@@ -53,7 +53,7 @@ RUN dpkg -i google-chrome-stable_current_amd64.deb && apt-get -fy install
 RUN rm google-chrome-stable_current_amd64.deb
 
 # Install Lighthouse cli
-RUN npm --global install -y lighthouse@8.0 \
+RUN npm --global install -y lighthouse@10.4.0 \
     && npm cache clean --force
 
 # Clone OpenAssessIt repos
