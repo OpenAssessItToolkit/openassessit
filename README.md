@@ -15,7 +15,7 @@ This project can work on all audit categories, but current efforts are focused o
 
 ## Two options to get started:
 
-__Option 1. Run in local Docker container (No longer works on Mac OS 12.4)__
+__Option 1. Run in local Docker container (Docker version no longer works on Mac due to ARM vs X86 architecture differences)__
 
 _OR_
 
