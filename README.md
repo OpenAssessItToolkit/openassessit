@@ -88,14 +88,14 @@ The audit will automatically be copied into your `openassessit/tmp/` directory.
 
 
 ```
-brew install node@14
-brew link node@14
-npm --global install -y lighthouse@8.0
+brew install node@16
+brew link node@16
+npm --global install -y lighthouse@10.4.0
 brew install geckodriver
 brew install chromedriver
 ```
 
-Note: Works with [Lighthouse 8.0](https://github.com/GoogleChrome/lighthouse/releases/tag/v8.0)
+Note: Works with [Lighthouse 10](https://github.com/GoogleChrome/lighthouse/releases/tag/v10.4.0)
 
 1. [Start up a virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
 2. Verify that [Chrome Lighthouse](https://github.com/GoogleChrome/lighthouse/) is [installed](https://github.com/GoogleChrome/lighthouse#using-the-node-cli) `lighthouse --version`

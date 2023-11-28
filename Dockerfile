@@ -22,6 +22,8 @@ RUN apt-get update && apt-get install -y \
   gnupg \
   --no-install-recommends \
   && curl -sSL https://deb.nodesource.com/setup_16.x | bash - \
+  && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
   && apt-get update && apt-get install -y \
   fontconfig \
   fonts-ipafont-gothic \
@@ -48,9 +50,9 @@ RUN apt-get update && apt-get install -y \
   && apt-get purge --auto-remove -y curl gnupg \
   && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN dpkg -i google-chrome-stable_current_amd64.deb && apt-get -fy install
-RUN rm google-chrome-stable_current_amd64.deb
+# RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+# RUN dpkg -i google-chrome-stable_current_amd64.deb && apt-get -fy install
+# RUN rm google-chrome-stable_current_amd64.deb
 
 # Install Lighthouse cli
 RUN npm --global install -y lighthouse@10.4.0 \
