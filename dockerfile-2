@@ -1,5 +1,5 @@
 # Parent image
-FROM --platform=linux/amd64 ubuntu:20.04
+FROM --platform=linux/amd64 python:3.9
 
 LABEL name "openassessit"
 LABEL maintainer Joel Crawford-Smith <jhc36@duke.edu>
@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y \
   nodejs \
   wget \
   git \
-  # firefox-esr \
+  firefox \
   python3-setuptools \
   python3-pip \
   zip \
@@ -74,7 +74,7 @@ RUN chmod +x geckodriver
 RUN mv geckodriver /usr/bin/
 
 # Chrome Driver
-RUN wget -q "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/115.0.5790.170/mac-arm64/chromedriver-mac-arm64.zip" -O /tmp/chromedriver.zip
+RUN wget -q "https://chromedriver.storage.googleapis.com/101.0.4951.15/chromedriver_linux64.zip" -O /tmp/chromedriver.zip
 RUN unzip /tmp/chromedriver.zip
 RUN rm /tmp/chromedriver.zip
 RUN chmod +x chromedriver

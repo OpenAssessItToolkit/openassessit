@@ -1,8 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.service import Service
-from webdriver_manager.firefox import GeckoDriverManager
-from PIL import Image, ImageDraw
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from PIL import Image,ImageDraw
 from io import BytesIO
 import time
 import re
@@ -15,17 +15,15 @@ from .utils import initialize_logger, generate_img_filename, scroll_down, detect
 from .templates import template_path
 
 
-# Use GeckoDriverManager for Firefox
-service = Service(GeckoDriverManager().install())
-options = webdriver.FirefoxOptions()
+service = Service(ChromeDriverManager("127.0.6533.99").install())
+options = webdriver.ChromeOptions()
 options.add_argument('--headless')
 options.add_argument('--window-size=1400,8000')
+options.add_argument("--disable-device-emulation")
 options.add_argument("--disable-gpu")
-options.add_argument('--disable-dev-shm-usage')
-
-# Setting up the Firefox WebDriver
-service = Service(GeckoDriverManager().install())
-driver = webdriver.Firefox(service=service, options=options)
+options.add_argument("--no-sandbox")
+options.add_argument("--force-device-scale-factor=1")
+driver = webdriver.Chrome(service=service, options=options)
 
 def get_args():
     example_text = '''
@@ -58,9 +56,11 @@ def capture_screenshot(assets_dir, url, sleep, driver):
         driver.set_window_size(1400, 700)
         im = Image.open(BytesIO(driver.get_screenshot_as_png()))
         im = im.resize([int(0.35 * s) for s in im.size], Image.LANCZOS)
+        # im.save(os.path.join(assets_dir,'screenshot.png'))
+        # logging.info('Created: screenshot.png')
         shot_name = generate_img_filename(url, 'cat', '_screenshot_')
         print(shot_name)
-        im.save(os.path.join(assets_dir, shot_name))
+        im.save(os.path.join(assets_dir,shot_name))
         logging.info('Created: ' + shot_name)
     except Exception as ex:
         logging.warning('Skipping element "%s" because: %s' % (url, ex))
@@ -72,7 +72,7 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, lhIdee, sl
     """ Capture image of element and save """
     try:
         driver.get(url)
-        driver.set_window_size(1400, 2000, driver.execute_script("return document.body.parentNode.scrollHeight"))
+        driver.set_window_size(1400,2000, driver.execute_script("return document.body.parentNode.scrollHeight"))
         elem = driver.find_element(By.CSS_SELECTOR, elem_identifier) # find element
         location = elem.location
         size = elem.size
@@ -91,7 +91,7 @@ def capture_element_pic(input_file, assets_dir, url, elem_identifier, lhIdee, sl
                         location['x'] + size['width'] +8,
                         location['y'] + size['height'] +8
                         ))
-            im.save(os.path.join(assets_dir, elem_image_name)) # saves new cropped image
+            im.save(os.path.join(assets_dir,elem_image_name)) # saves new cropped image
             logging.info('Created: %s' % (elem_image_name))
             if im.convert("L").getextrema() == (0, 0): # check if image is white
                 create_backup_image(assets_dir, elem_identifier, elem_image_name)
@@ -132,7 +132,7 @@ def main():
             data = json.load(json_file)
             detect_full_html_loaded(driver)
             capture_screenshot(assets_dir, data['finalUrl'], sleep, driver)
-        for sel, lhIdee in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'list', 'listitem', 'definition-list', 'dlitem', 'aria-allowed-attr', 'aria-required-attr', 'aria-required-children', 'aria-required-parent', 'aria-roles', 'aria-valid-attr-value', 'aria-valid-attr'):
+        for sel,lhIdee in identifier_generator(data, 'color-contrast', 'link-name', 'button-name', 'image-alt', 'input-image-alt', 'label', 'accesskeys', 'frame-title', 'list', 'listitem', 'definition-list', 'dlitem', 'aria-allowed-attr', 'aria-required-attr', 'aria-required-children', 'aria-required-parent', 'aria-roles', 'aria-valid-attr-value', 'aria-valid-attr'):
             time.sleep(2) # Wait for page to load initial things inlcuding location request, which interfere with scrolling to load ajaxy parts of the page.
             capture_element_pic(input_file, assets_dir, data['finalUrl'], sel, lhIdee, sleep, driver)
     finally:

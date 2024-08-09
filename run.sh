@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ $# -ne 4 ]; then
-    echo 'Requires: path or alias to your Lighthouse, url, output filename, webdriver'
+if [ $# -ne 3 ]; then
+    echo 'Requires: path or alias to your Lighthouse, url, output filename'
     exit 1
 fi
 mkdir -p $(pwd)/tmp/$3;
@@ -24,5 +24,4 @@ mkdir -p $(pwd)/tmp/$3/assets;
 python3 -m openassessit.capture \
 --input-file="$(pwd)/tmp/$3/$3.json" \
 --assets-dir="$(pwd)/tmp/$3/assets/" \
---sleep=4 \
---driver=$4;
+--sleep=1

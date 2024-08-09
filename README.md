@@ -168,6 +168,12 @@ python -m openassessit.capture \
 --driver=chrome
 ```
 
+```
+python -m openassessit.capture \
+--input-file="/abs/path/to/catsaudit.json" \
+--assets-dir="/abs/path/to/assets/" \
+--sleep=1
+```
 
 __4) Review the issues__
 
@@ -184,7 +190,7 @@ chmod +x run.sh
 Example: 
 
 ```
-./run.sh lighthouse https:/cats.com/ catscom firefox
+./run.sh lighthouse https:/cats.com/ catscom
 ```
 
 You can use it as-is, or augment the content with additional custom help text. It takes a real human to validate and prioritize accessibility issues.  We recommend that people perform the list of manual tests and the results.
